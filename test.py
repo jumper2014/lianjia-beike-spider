@@ -2,10 +2,14 @@
 #
 
 from lib.url.ershoufang import *
+from lib.url.xiaoqu import *
 from lib.utility.writer import *
 
-print get_qu_urls()
-urls = get_sub_qu_urls()
-print len(urls)
 
-write_urls_to_file("sub_qu_urls.txt", urls)
+urls = get_ershoufang_bankuai_urls()
+print len(urls)
+write_urls_to_file("ershoufang_bankuai_urls.txt", urls)
+
+urls = get_xiaoqu_bankuai_urls()
+print len(urls)
+write_urls_to_file("xiaoqu_bankuai_urls.txt", urls)

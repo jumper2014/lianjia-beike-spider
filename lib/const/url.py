@@ -1,5 +1,9 @@
 # coding=utf-8
 #
 
-BASE_URL = "http://sh.lianjia.com"
+LIANJIA_SH_BASE_URL = "http://sh.lianjia.com"
+
 ERSHOUFANG_BASE_URL = "http://sh.lianjia.com/ershoufang"
+
+SH_XIAOQU_BASE_URL = 'http://sh.lianjia.com/xiaoqu'
+

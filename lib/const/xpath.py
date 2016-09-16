@@ -2,4 +2,7 @@
 #
 
 ERSHOUFANG_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
-ERSHOUFANG_SUB_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+ERSHOUFANG_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+
+XIAOQU_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
+XIAOQU_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
