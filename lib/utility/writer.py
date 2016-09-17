@@ -1,7 +1,7 @@
 # coding=utf-8
 # 保存结果到文件
 
-from lib.const.path import *
+from lib.utility.path import *
 
 
 def make_dir(dir_name):
