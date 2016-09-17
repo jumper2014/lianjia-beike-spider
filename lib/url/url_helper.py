@@ -14,6 +14,9 @@ def get_urls_from_xpath(page, xpath, relative=True):
         root = etree.HTML(html)
         links = root.xpath(xpath)
         if relative:
+            for link in links:
+                # print link.text
+                pass
             return [LIANJIA_SH_BASE_URL + link.attrib['href'] for link in links]
         else:
             return [link.attrib['href'] for link in links]
