@@ -47,6 +47,9 @@ def get_xiaoqu_info():
 
         print price.text.strip() + "," + name.text.replace("\n", "") + "," + sale[0].text
 
+    last_page = soup.find('a', gahref="results_totalpage")
+    print last_page.text
+
     # print house_elems
 
 

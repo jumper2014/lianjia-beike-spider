@@ -1,7 +1,11 @@
 # coding=utf-8
-#
+# 保存结果到文件
 
 from lib.const.path import *
+
+
+def make_dir(dir_name):
+    pass
 
 
 def write_urls_to_file(file_name, urls):
