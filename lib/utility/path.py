@@ -4,7 +4,6 @@
 import inspect
 import os
 import sys
-from lib.const.path import *
 
 
 def get_root_path():
@@ -37,6 +36,7 @@ def create_city_path(site, city):
     if not os.path.exists(city_path):
         os.makedirs(city_path)
     return city_path
+
 
 
 def create_date_path(site, city, date):
