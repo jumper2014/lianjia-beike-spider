@@ -69,6 +69,7 @@ def get_xiaoqu_info(city, area):
     soup = BeautifulSoup(html, "lxml")
 
     # 获得总的页数
+    total_page = 0
     last_page = soup.find('a', gahref="results_totalpage")
     if last_page is not None:  # 如果找到了标示最后一页的链接
         total_page = int(last_page.text)
@@ -80,6 +81,7 @@ def get_xiaoqu_info(city, area):
             if last_page is not None:
                 total_page = int(last_page.text)
                 break
+
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(total_page+1)[1:]:

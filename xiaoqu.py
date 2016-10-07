@@ -1,6 +1,7 @@
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的小区数据
+# 获得指定城市的所有小区数据
+# 这些数据包括:所属区县,板块名,小区名,挂牌均价,挂牌数
 
 import time
 import threadpool
