@@ -5,7 +5,7 @@
 
 import requests
 from lxml import etree
-from lib.const.url import *
+from lib.city.district import *
 
 
 def get_district_url(city, district):
@@ -21,9 +21,9 @@ def get_district_url(city, district):
 def get_areas(city, district):
     """
     通过城市和区县名获得下级板块名
-    :param city:
-    :param district:
-    :return:
+    :param city: 城市
+    :param district: 区县
+    :return: 区县列表
     """
     page = get_district_url(city, district)
     xpath = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
@@ -37,15 +37,16 @@ def get_areas(city, district):
         # 针对a标签的list进行处理
         for link in links:
             relative_link = link.attrib['href']
+            # 去掉最后的"/"
             relative_link = relative_link[:-1]
+            # 获取最后一节
             area = relative_link.split("/")[-1]
             # 去掉区县名,防止重复
             if area != district:
+                chinese_area = link.text
+                CHINESE_AREA_DICT[area] = chinese_area
                 areas.append(area)
-
         return areas
-
-
     except Exception as e:
         print e
 
