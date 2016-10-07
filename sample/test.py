@@ -10,6 +10,6 @@ urls = get_ershoufang_bankuai_urls()
 print len(urls)
 write_urls_to_file("ershoufang_bankuai_urls.txt", urls)
 
-urls = get_xiaoqu_bankuai_urls()
+urls = get_xiaoqu_area_urls()
 print len(urls)
 write_urls_to_file("xiaoqu_bankuai_urls.txt", urls)

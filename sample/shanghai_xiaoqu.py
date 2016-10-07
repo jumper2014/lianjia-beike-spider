@@ -12,7 +12,7 @@ if __name__ == "__main__":
     today_path = create_date_path("lianjia", "shanghai", date_string)
 
     # find the 市区(disctrict)
-    district_list = get_city_districts("shanghai")
+    district_list = get_districts("shanghai")
 
     for district in district_list:
         print district
