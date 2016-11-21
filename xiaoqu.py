@@ -3,23 +3,24 @@
 # 获得指定城市的所有小区数据
 # 这些数据包括:所属区县,板块名,小区名,挂牌均价,挂牌数
 
-import time
 import threadpool
 import threading
+from lib.utility.date import *
 from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 
 
-def collect_xiaoqu_data(area_name):
+def collect_xiaoqu_data(area_name, dest="no"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
     :param area_name: 板块
     :return: None
     """
-    global total_num
-    csv_file = get_root_path() + "/data/{0}.csv".format(area_name)
+    global total_num, today_path
+
+    csv_file = today_path + "/{0}.csv".format(area_name)
     print "开始爬取板块:", area_name, "保存文件路径:", csv_file
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
@@ -29,8 +30,9 @@ def collect_xiaoqu_data(area_name):
             total_num += len(xiaoqu_list)
             # 释放
             mutex.release()
-        for xiaoqu in xiaoqu_list:
-            f.write(xiaoqu.text()+"\n")
+        if dest == "csv":
+            for xiaoqu in xiaoqu_list:
+                f.write(date_string + "," + xiaoqu.text()+"\n")
     print "完成爬取板块:", area_name
 
 
@@ -38,6 +40,10 @@ def collect_xiaoqu_data(area_name):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
+
+    date_string = get_date_string()
+    today_path = create_date_path("lianjia", "sh", date_string)
+
     # 创建锁
     mutex = threading.Lock()
 
@@ -71,7 +77,7 @@ if __name__ == "__main__":
     # areas = areas[0: 1]
     # 针对每个板块写一个文件,启动一个线程来操作
     # 使用线程池来做
-    pool_size = 5
+    pool_size = 20
     pool = threadpool.ThreadPool(pool_size)
 
     requests = threadpool.makeRequests(collect_xiaoqu_data, areas)
