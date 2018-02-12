@@ -1,5 +1,6 @@
-# LianJiaHouseAnalysis
-链家爬虫，房地产数据分析器
+# LianJiaSpdier
+
+链家爬虫，获取链家网小区数据。
 
 * 城市 city
 * 区县 district
