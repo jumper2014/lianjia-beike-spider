@@ -1,19 +1,14 @@
 # coding=utf-8
-
-import requests
-from BeautifulSoup import BeautifulSoup
+import urllib2
 from lxml import etree
-import re
+
 
 base_url = "http://sh.lianjia.com"
 
 if __name__ == "__main__":
     second_hand_url = "http://sh.lianjia.com/ershoufang"
-
-    response = requests.get(second_hand_url)
-    html = response.content
-
-    # soup = BeautifulSoup(html)
+    response = urllib2.urlopen(second_hand_url)
+    html = response.read()
     root = etree.HTML(html)
     print root
 
@@ -23,8 +18,9 @@ if __name__ == "__main__":
     # print links
     for link in links:
         sub_qu = base_url + link.attrib['href']
-        response = requests.get(sub_qu)
-        html = response.content
+        response = urllib2.urlopen(sub_qu)
+
+        html = response.read()
         root = etree.HTML(html)
         xpath_str = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
         sub_links = root.xpath(xpath_str)

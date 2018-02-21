@@ -1,8 +1,8 @@
 # coding=utf-8
 # author: Zeng YueTian
 
-
-import requests
+import urllib2
+import re
 from bs4 import BeautifulSoup
 from lxml import etree
 from lib.const.url import *
@@ -64,49 +64,51 @@ def get_xiaoqu_info(city, area):
     chinese_area = CHINESE_AREA_DICT.get(area, "")
     xiaoqu_list = list()
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
-    response = requests.get(page)
-    html = response.content
+
+    response = urllib2.urlopen(page)
+    html = response.read()
     soup = BeautifulSoup(html, "lxml")
 
     # 获得总的页数
-    total_page = 0
-    last_page = soup.find('a', gahref="results_totalpage")
-    if last_page is not None:  # 如果找到了标示最后一页的链接
-        total_page = int(last_page.text)
-    else:   # 没有标示最后一页的链接,那么总页数不超过10,从大到小倒序找到最后一页
-        href_list = ["results_d{0}".format(i) for i in range(10+1)[1:]]
-        href_list.reverse()
-        for href in href_list:
-            last_page = soup.find('a', gahref=href)
-            if last_page is not None:
-                total_page = int(last_page.text)
-                break
+    page_box = soup.find_all('div', class_='page-box')[0]
+    matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
+    total_page = int(matches.group(1))
+    # print("total page %d" % total_page)
+    # last_page = soup.find('a', gahref="results_totalpage")
+    # if last_page is not None:  # 如果找到了标示最后一页的链接
+    #     total_page = int(last_page.text)
+    # else:   # 没有标示最后一页的链接,那么总页数不超过10,从大到小倒序找到最后一页
+    #     href_list = ["results_d{0}".format(i) for i in range(10+1)[1:]]
+    #     href_list.reverse()
+    #     for href in href_list:
+    #         last_page = soup.find('a', gahref=href)
+    #         if last_page is not None:
+    #             total_page = int(last_page.text)
+    #             break
 
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(total_page+1)[1:]:
-        page = 'http://{0}.lianjia.com/xiaoqu/{1}/d{2}'.format(city, area, i)
-        # print page
-        response = requests.get(page)
-        html = response.content
+        page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
+        response = urllib2.urlopen(page)
+        html = response.read()
         soup = BeautifulSoup(html, "lxml")
 
         # 获得有小区信息的panel
-        house_elems = soup.find_all('div', class_="info-panel")
+        house_elems = soup.find_all('li', class_="xiaoquListItem")
         for house_elem in house_elems:
-            price = house_elem.find('span', class_="num")
-            name = house_elem.find('h2')
-            on_sale = house_elem.select('div[class="square"] > div > a > span')
+            price = house_elem.find('div', class_="totalPrice")
+            name = house_elem.find('div', class_='title')
+            on_sale = house_elem.find('div', class_="xiaoquListItemSellCount")
 
             # 继续清理数据
             price = price.text.strip()
             name = name.text.replace("\n", "")
-            on_sale = on_sale[0].text.strip()
+            on_sale = on_sale.text.replace("\n", "").strip()
 
             # 作为对象保存
             xiaoqu = XiaoQu(chinese_district, chinese_area, name, price, on_sale)
             xiaoqu_list.append(xiaoqu)
-            # print price, name, on_sale
     return xiaoqu_list
 
 

@@ -2,8 +2,7 @@
 # author: Zeng YueTian
 # 获取各板块信息
 
-
-import requests
+import urllib2
 from lxml import etree
 from lib.city.district import *
 
@@ -26,11 +25,12 @@ def get_areas(city, district):
     :return: 区县列表
     """
     page = get_district_url(city, district)
-    xpath = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+    xpath = '/html/body/div[3]/div[1]/dl[2]/dd/div/div[2]/a'
+
     areas = list()
     try:
-        response = requests.get(page)
-        html = response.content
+        response = urllib2.urlopen(page)
+        html = response.read()
         root = etree.HTML(html)
         links = root.xpath(xpath)
 

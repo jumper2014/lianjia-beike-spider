@@ -3,7 +3,7 @@
 # 各城市的区县相关信息
 
 CHINESE_DISTRICT_DICT = {
-    "pudongxinqu": "浦东",
+    "pudong": "浦东",
     "minhang": "闵行",
     "baoshan": "宝山",
     "xuhui": "徐汇",
@@ -25,7 +25,7 @@ CHINESE_DISTRICT_DICT = {
 CHINESE_AREA_DICT = dict()
 
 SHANGHAI_DISTRICT_LIST = [
-    "pudongxinqu",
+    "pudong",
     "minhang",
     "baoshan",
     "xuhui",

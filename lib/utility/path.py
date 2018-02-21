@@ -1,6 +1,7 @@
 # coding=utf-8
 # 获得当前目录结构,创建目录结构
 
+
 import inspect
 import os
 import sys
@@ -38,7 +39,6 @@ def create_city_path(site, city):
     return city_path
 
 
-
 def create_date_path(site, city, date):
     city_path = create_city_path(site, city)
     date_path = city_path + "/" + date
@@ -46,15 +46,12 @@ def create_date_path(site, city, date):
         os.makedirs(date_path)
     return date_path
 
+
 # const for path
 ROOT_PATH = get_root_path()
 DATA_PATH = ROOT_PATH + "/data"
 SAMPLE_PATH = ROOT_PATH + "/sample"
 
-
 if __name__ == "__main__":
     create_date_path("lianjia", "sh", "20160912")
     create_date_path("anjuke", "bj", "20160912")
-
-
-

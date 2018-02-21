@@ -1,16 +1,14 @@
 # coding=utf-8
 #
-
-import requests
+import urllib2
 from lxml import etree
 from lib.const.url import *
 
 
 def get_urls_from_xpath(page, xpath, relative=True):
     try:
-        response = requests.get(page)
-        html = response.content
-        # print html
+        response = urllib2.urlopen(page)
+        html = response.read()
         root = etree.HTML(html)
         links = root.xpath(xpath)
         if relative:
