@@ -65,14 +65,20 @@ def get_xiaoqu_info(city, area):
     xiaoqu_list = list()
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
 
-    response = urllib2.urlopen(page)
+    response = urllib2.urlopen(page, timeout=5)
     html = response.read()
     soup = BeautifulSoup(html, "lxml")
 
     # 获得总的页数
     page_box = soup.find_all('div', class_='page-box')[0]
     matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
-    total_page = int(matches.group(1))
+    try:
+        total_page = int(matches.group(1))
+    except Exception as e:
+        print("\tWarning: only find one page for {0}".format(area))
+        print("\t" + e.message)
+        total_page = 1
+
     # print("total page %d" % total_page)
     # last_page = soup.find('a', gahref="results_totalpage")
     # if last_page is not None:  # 如果找到了标示最后一页的链接

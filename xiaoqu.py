@@ -13,17 +13,17 @@ from lib.utility.path import *
 from lib.url.xiaoqu import *
 
 
-def collect_xiaoqu_data(area_name, dest="csv"):
+def collect_xiaoqu_data(area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
     :param area_name: 板块
+    :param fmt: 保存文件格式
     :return: None
     """
     global total_num, today_path
 
     csv_file = today_path + "/{0}.csv".format(area_name)
-    print "开始爬取板块:", area_name, "保存文件路径:", csv_file
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
         xiaoqus = get_xiaoqu_info("sh", area_name)
@@ -32,11 +32,11 @@ def collect_xiaoqu_data(area_name, dest="csv"):
             total_num += len(xiaoqus)
             # 释放
             mutex.release()
-        if dest == "csv":
+        if fmt == "csv":
             for xiaoqu in xiaoqus:
                 # print(date_string + "," + xiaoqu.text())
                 f.write(date_string + "," + xiaoqu.text()+"\n")
-    print "完成爬取板块:", area_name
+    print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
 # -------------------------------
@@ -61,26 +61,23 @@ if __name__ == "__main__":
     # 获得上海有多少区列表, district: 区县
     # -------------------------------
     districts = get_districts("sh")   # 现在是hard coding
-    print(u'区县: %s' % districts)
+    print('Districts: %s' % districts)
 
     # -------------------------------
     # 获得每个区的板块, area: 板块
     # -------------------------------
-    print(u'开始抓取版块信息')
     areas = list()
     for district in districts:
-        print(u'开始抓取区 %s' %district)
-
         areas_of_district = get_areas("sh", district)
-        print(u'本区版块 %s' % areas_of_district)
+        print('{0}: Area list:  {1}'.format(district, areas_of_district))
         # 用list的extend方法,L1.extend(L2)，该方法将参数L2的全部元素添加到L1的尾部
         areas.extend(areas_of_district)
         # 使用一个字典来存储区县和板块的对应关系, 例如{'beicai': 'pudongxinqu', }
         for area in areas_of_district:
             AREA_DICT[area] = district
 
-    print(u"板块:", areas)
-    print(u"区县和板块对应关系:", AREA_DICT)
+    print("Area:", areas)
+    print("District and areas:", AREA_DICT)
 
     # areas = areas[0: 1]
     # 针对每个板块写一个文件,启动一个线程来操作
@@ -99,5 +96,5 @@ if __name__ == "__main__":
 
     # 计时结束
     t2 = time.time()
-    print "一共 {0} 个小区.".format(len(areas))
-    print "花费了 {0} 秒完成了 {1} 条数据的爬取.".format(t2 - t1, total_num)
+    print "Total crawl {0} areas.".format(len(areas))
+    print "Total cost {0} second to crawl {1} data items.".format(t2 - t1, total_num)
