@@ -43,10 +43,10 @@ def collect_xiaoqu_data(area_name, fmt="csv"):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-
+    city = "sh"
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("lianjia", "sh", date_string)
+    today_path = create_date_path("lianjia", city, date_string)
 
     # 创建锁
     mutex = threading.Lock()
@@ -60,8 +60,9 @@ if __name__ == "__main__":
     # -------------------------------
     # 获得上海有多少区列表, district: 区县
     # -------------------------------
-    districts = get_districts("sh")   # 现在是hard coding
-    print('Districts: %s' % districts)
+    districts = get_districts(city)
+    print('City: {0}'.format(city))
+    print('Districts: {0}'.format(districts))
 
     # -------------------------------
     # 获得每个区的板块, area: 板块
@@ -82,7 +83,7 @@ if __name__ == "__main__":
     # areas = areas[0: 1]
     # 针对每个板块写一个文件,启动一个线程来操作
     # 使用线程池来做
-    pool_size = 20
+    pool_size = 50
     pool = threadpool.ThreadPool(pool_size)
 
     requests = threadpool.makeRequests(collect_xiaoqu_data, areas)

@@ -94,9 +94,9 @@ def get_xiaoqu_info(city, area):
 
 
     # 从第一页开始,一直遍历到最后一页
-    for i in range(total_page+1)[1:]:
+    for i in range(1, total_page+1):
         page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
-        response = urllib2.urlopen(page)
+        response = urllib2.urlopen(page, timeout=10)
         html = response.read()
         soup = BeautifulSoup(html, "lxml")
 
