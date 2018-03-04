@@ -97,5 +97,5 @@ if __name__ == "__main__":
 
     # 计时结束
     t2 = time.time()
-    print "Total crawl {0} areas.".format(len(areas))
-    print "Total cost {0} second to crawl {1} data items.".format(t2 - t1, total_num)
+    print("Total crawl {0} areas.".format(len(areas)))
+    print("Total cost {0} second to crawl {1} data items.".format(t2 - t1, total_num))
