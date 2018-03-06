@@ -19,7 +19,26 @@ CHINESE_DISTRICT_DICT = {
     "qingpu": "青浦",
     "fengxian": "奉贤",
     "jinshan": "金山",
-    "chongming": "崇明"
+    "chongming": "崇明",
+
+    'dongcheng': '东城',
+    'xicheng': '西城',
+    'chaoyang': '朝阳',
+    'haidian': '海淀',
+    'fengtai': '丰台',
+    'shijingshan': '石景山',
+    'tongzhou': '通州',
+    'changping': '昌平',
+    'daxing': '大兴',
+    'yizhuangkaifaqu': '亦庄开发区',
+    'shunyi': '顺义',
+    'fangshan': '房山',
+    'mentougou': '门头沟',
+    'pinggu': '平谷',
+    'huairou': '怀柔',
+    'miyun': '密云',
+    'yanqing': '延庆',
+    'yanjiao': '燕郊',
 }
 
 CHINESE_AREA_DICT = dict()
@@ -45,10 +64,29 @@ SHANGHAI_DISTRICT_LIST = [
 ]
 
 BEIJING_DISTRICT_LIST = [
+    'dongcheng',
+    'xicheng',
+    'chaoyang',
+    'haidian',
+    'fengtai',
+    'shijingshan',
+    'tongzhou',
+    'changping',
+    'daxing',
+    'yizhuangkaifaqu',
+    'shunyi',
+    'fangshan',
+    'mentougou',
+    'pinggu',
+    'huairou',
+    'miyun',
+    'yanqing',
+    'yanjiao',
 
 ]
 
 AREA_DICT = dict()
+
 
 def get_chinese_district(en):
     """
@@ -60,7 +98,7 @@ def get_chinese_district(en):
 
 
 def get_districts(city):
-    if city == "shanghai" or "sh":
+    if city in ("sh"):
         return SHANGHAI_DISTRICT_LIST
-    if city == "beijing" or "bej":
+    elif city in ("bj"):
         return BEIJING_DISTRICT_LIST

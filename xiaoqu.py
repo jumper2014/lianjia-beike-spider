@@ -13,7 +13,7 @@ from lib.utility.path import *
 from lib.url.xiaoqu import *
 
 
-def collect_xiaoqu_data(area_name, fmt="csv"):
+def collect_xiaoqu_data(city, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
@@ -26,7 +26,7 @@ def collect_xiaoqu_data(area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        xiaoqus = get_xiaoqu_info("sh", area_name)
+        xiaoqus = get_xiaoqu_info(city, area_name)
         # 锁定
         if mutex.acquire(1):
             total_num += len(xiaoqus)
@@ -43,7 +43,8 @@ def collect_xiaoqu_data(area_name, fmt="csv"):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    city = "sh"
+    # city = "bj"  # 采集北京小区数据
+    city = "sh"  # 采集上海小区数据
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
     today_path = create_date_path("lianjia", city, date_string)
@@ -69,7 +70,7 @@ if __name__ == "__main__":
     # -------------------------------
     areas = list()
     for district in districts:
-        areas_of_district = get_areas("sh", district)
+        areas_of_district = get_areas(city, district)
         print('{0}: Area list:  {1}'.format(district, areas_of_district))
         # 用list的extend方法,L1.extend(L2)，该方法将参数L2的全部元素添加到L1的尾部
         areas.extend(areas_of_district)
@@ -79,14 +80,16 @@ if __name__ == "__main__":
 
     print("Area:", areas)
     print("District and areas:", AREA_DICT)
-
+    nones = [None for i in range(len(areas))]
+    citys = [city for i in range(len(areas))]
+    args = zip(zip(citys, areas), nones)
     # areas = areas[0: 1]
     # 针对每个板块写一个文件,启动一个线程来操作
     # 使用线程池来做
     pool_size = 50
     pool = threadpool.ThreadPool(pool_size)
 
-    requests = threadpool.makeRequests(collect_xiaoqu_data, areas)
+    requests = threadpool.makeRequests(collect_xiaoqu_data, args)
 
     [pool.putRequest(req) for req in requests]
     pool.poll()

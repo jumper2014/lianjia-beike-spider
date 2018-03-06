@@ -29,7 +29,7 @@ def get_areas(city, district):
 
     areas = list()
     try:
-        response = urllib2.urlopen(page)
+        response = urllib2.urlopen(page, timeout=10)
         html = response.read()
         root = etree.HTML(html)
         links = root.xpath(xpath)

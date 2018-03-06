@@ -64,8 +64,9 @@ def get_xiaoqu_info(city, area):
     chinese_area = CHINESE_AREA_DICT.get(area, "")
     xiaoqu_list = list()
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
+    print(page)
 
-    response = urllib2.urlopen(page, timeout=5)
+    response = urllib2.urlopen(page, timeout=10)
     html = response.read()
     soup = BeautifulSoup(html, "lxml")
 
