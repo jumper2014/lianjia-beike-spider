@@ -44,7 +44,8 @@ def get_areas(city, district):
             # 去掉区县名,防止重复
             if area != district:
                 chinese_area = link.text
-                CHINESE_AREA_DICT[area] = chinese_area
+                chinese_area_dict[area] = chinese_area
+                # print(chinese_area)
                 areas.append(area)
         return areas
     except Exception as e:
@@ -52,5 +53,5 @@ def get_areas(city, district):
 
 
 if __name__ == "__main__":
-    print get_areas("sh", "pudongxinqu")
+    print(get_areas("sh", "huangpu"))
 

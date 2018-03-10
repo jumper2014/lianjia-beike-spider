@@ -1,6 +1,6 @@
 # 链家网爬虫
 - 获取链家网小区房价数据。如果好用，请star。
-- 城市 city （支持北京和上海）
+- 城市 city （支持多个城市选择，见lib/city/city.py）
 - 区县 district
 - 板块 area
 - 小区 xiaoqu
@@ -17,13 +17,14 @@ Total cost 294.048109055 second to crawl 27256 data items.
 
 ### 使用方法
 - 修改xiaoqu.py里面的city变量，以便确定采集北京还是上海
-- python xiaoqu.py
+- python xiaoqu.py 根据提示输入城市代码，回车确认
 
 ### 结果存储
 - 根目录下建立data目录存放结果数据文件
 - 目录为 data/lianjia/city/date
 
 ### 更新记录
+- 2018/03/10 自动获取城市的区县列表，现在支持16个城市
 - 2018/03/06 支持北京二手房小区数据采集
 - 2018/02/21 应对链家前端页面更新，使用urllib2代替第三方requests库,提升性能，减少依赖
 - 2018/02/01 支持上海二手房小区数据采集

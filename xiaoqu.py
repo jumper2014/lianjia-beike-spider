@@ -11,6 +11,7 @@ from lib.utility.date import *
 from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
+from lib.city.city import *
 
 
 def collect_xiaoqu_data(city, area_name, fmt="csv"):
@@ -43,23 +44,28 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    # city = "bj"  # 采集北京小区数据
-    city = "sh"  # 采集上海小区数据
+    # 让用户选择爬取哪个城市的二手房小区价格数据
+    city_info = list()
+    for key, value in citys.items():
+        city_info.append(key)
+        city_info.append(": ")
+        city_info.append(value)
+        city_info.append("\n")
+    prompt = 'Which city do you want to crawl ?\n' + ''.join(city_info)
+    city = raw_input(prompt)
+    print('OK, start to crawl ' + get_chinese_city(city))
+
+    # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
     today_path = create_date_path("lianjia", city, date_string)
 
-    # 创建锁
-    mutex = threading.Lock()
-
-    # 总的小区个数
-    total_num = 0
-
-    # 开始计时
-    t1 = time.time()
+    mutex = threading.Lock()    # 创建锁
+    total_num = 0               # 总的小区个数，用于统计
+    t1 = time.time()            # 开始计时
 
     # -------------------------------
-    # 获得上海有多少区列表, district: 区县
+    # 获得城市有多少区列表, district: 区县
     # -------------------------------
     districts = get_districts(city)
     print('City: {0}'.format(city))
@@ -76,27 +82,22 @@ if __name__ == "__main__":
         areas.extend(areas_of_district)
         # 使用一个字典来存储区县和板块的对应关系, 例如{'beicai': 'pudongxinqu', }
         for area in areas_of_district:
-            AREA_DICT[area] = district
+            area_dict[area] = district
 
     print("Area:", areas)
-    print("District and areas:", AREA_DICT)
+    print("District and areas:", area_dict)
     nones = [None for i in range(len(areas))]
-    citys = [city for i in range(len(areas))]
-    args = zip(zip(citys, areas), nones)
+    city_list = [city for i in range(len(areas))]
+    args = zip(zip(city_list, areas), nones)
     # areas = areas[0: 1]
     # 针对每个板块写一个文件,启动一个线程来操作
     # 使用线程池来做
     pool_size = 50
     pool = threadpool.ThreadPool(pool_size)
-
     requests = threadpool.makeRequests(collect_xiaoqu_data, args)
-
     [pool.putRequest(req) for req in requests]
-    pool.poll()
     pool.wait()
-
-    # 完成后退出
-    pool.dismissWorkers(pool_size, do_join=True)
+    pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出
 
     # 计时结束
     t2 = time.time()

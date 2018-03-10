@@ -59,9 +59,9 @@ def get_xiaoqu_area(district):
 
 
 def get_xiaoqu_info(city, area):
-    district = AREA_DICT.get(area, "")
+    district = area_dict.get(area, "")
     chinese_district = get_chinese_district(district)
-    chinese_area = CHINESE_AREA_DICT.get(area, "")
+    chinese_area = chinese_area_dict.get(area, "")
     xiaoqu_list = list()
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
     print(page)
