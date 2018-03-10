@@ -1,9 +1,8 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: Zeng YueTian
+# author: zengyuetian
 # 获取各板块信息
 
-import urllib2
-from lxml import etree
 from lib.city.district import *
 
 

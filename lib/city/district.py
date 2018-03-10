@@ -1,13 +1,14 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: Zeng YueTian
+# author: zengyuetian
 # 获得各城市的区县相关信息
 
 import urllib2
 from lxml import etree
-from lib.city.city import citys
+from lib.city.city import cities
 
-chinese_city_district_dict = dict()
-chinese_area_dict = dict()
+chinese_city_district_dict = dict()     # 城市代码和中文名映射
+chinese_area_dict = dict()              # 版块代码和中文名映射
 area_dict = dict()
 
 
@@ -41,7 +42,7 @@ def get_districts(city):
 
 
 if __name__ == '__main__':
-    for key in citys.keys():
+    for key in cities.keys():
         # 寻找那些网页格式不合规的城市
         chinese_city_district_dict = dict()
         get_districts(key)

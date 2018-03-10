@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 # coding=utf-8
-#
+# author: zengyuetian
+
 import urllib2
 from lxml import etree
 from lib.const.url import *

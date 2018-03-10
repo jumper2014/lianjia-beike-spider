@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 # coding=utf-8
+# author: zengyuetian
 # 保存结果到文件
 
 from lib.utility.path import *

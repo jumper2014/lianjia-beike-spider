@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding=utf-8
+# author: zengyuetian
 # 城市缩写和城市名的映射
 # 想抓取其他已有城市的话，把相关城市信息放入下面的字典中
 
-
-citys = {
+cities = {
     'bj': '北京',
     'cd': '成都',
     'cq': '重庆',
@@ -30,7 +30,7 @@ def get_chinese_city(en):
     :param en: 拼音
     :return: 中文
     """
-    return citys.get(en, None)
+    return cities.get(en, None)
 
 
 if __name__ == '__main__':

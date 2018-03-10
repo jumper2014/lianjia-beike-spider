@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: Zeng YueTian
+# author: zengyuetian
 # 小区信息的数据结构
+
 import sys
 reload(sys)
 sys.setdefaultencoding("utf-8")

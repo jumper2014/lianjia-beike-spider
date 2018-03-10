@@ -1,5 +1,6 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: Zeng YueTian
+# author: zengyuetian
 # 日期和时间的字符串辅助函数
 
 import time
@@ -30,6 +31,7 @@ def get_year_month_string():
     """
     current = time.localtime()
     return time.strftime("%Y%m", current)
+
 
 if __name__ == "__main__":
     print get_date_string()

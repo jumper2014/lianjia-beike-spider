@@ -1,9 +1,7 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: yuetian
+# author: zengyuetian
 
-import requests
-from lxml import etree
-from lib.const.url import *
 from lib.const.xpath import *
 from lib.url.url_helper import *
 

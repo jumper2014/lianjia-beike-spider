@@ -1,11 +1,9 @@
+#!/usr/bin/env python
 # coding=utf-8
-# author: Zeng YueTian
+# author: zengyuetian
 
-import urllib2
 import re
 from bs4 import BeautifulSoup
-from lxml import etree
-from lib.const.url import *
 from lib.const.xpath import *
 from lib.url.url_helper import *
 from lib.city.xiaoqu import *

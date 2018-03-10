@@ -27,17 +27,32 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        xiaoqus = get_xiaoqu_info(city, area_name)
+        xqs = get_xiaoqu_info(city, area_name)
         # 锁定
         if mutex.acquire(1):
-            total_num += len(xiaoqus)
+            total_num += len(xqs)
             # 释放
             mutex.release()
         if fmt == "csv":
-            for xiaoqu in xiaoqus:
+            for xiaoqu in xqs:
                 # print(date_string + "," + xiaoqu.text())
                 f.write(date_string + "," + xiaoqu.text()+"\n")
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
+
+def create_prompt_text():
+    city_info = list()
+    count = 0
+    for en_name, ch_name in cities.items():
+        count += 1
+        city_info.append(en_name)
+        city_info.append(": ")
+        city_info.append(ch_name)
+        if count % 4 == 0:
+            city_info.append("\n")
+        else:
+            city_info.append(", ")
+    return 'Which city do you want to crawl?\n' + ''.join(city_info)
 
 
 # -------------------------------
@@ -45,13 +60,7 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
 # -------------------------------
 if __name__ == "__main__":
     # 让用户选择爬取哪个城市的二手房小区价格数据
-    city_info = list()
-    for key, value in citys.items():
-        city_info.append(key)
-        city_info.append(": ")
-        city_info.append(value)
-        city_info.append("\n")
-    prompt = 'Which city do you want to crawl ?\n' + ''.join(city_info)
+    prompt = create_prompt_text()
     city = raw_input(prompt)
     print('OK, start to crawl ' + get_chinese_city(city))
 
@@ -64,16 +73,12 @@ if __name__ == "__main__":
     total_num = 0               # 总的小区个数，用于统计
     t1 = time.time()            # 开始计时
 
-    # -------------------------------
     # 获得城市有多少区列表, district: 区县
-    # -------------------------------
     districts = get_districts(city)
     print('City: {0}'.format(city))
     print('Districts: {0}'.format(districts))
 
-    # -------------------------------
     # 获得每个区的板块, area: 板块
-    # -------------------------------
     areas = list()
     for district in districts:
         areas_of_district = get_areas(city, district)
@@ -83,15 +88,16 @@ if __name__ == "__main__":
         # 使用一个字典来存储区县和板块的对应关系, 例如{'beicai': 'pudongxinqu', }
         for area in areas_of_district:
             area_dict[area] = district
-
     print("Area:", areas)
     print("District and areas:", area_dict)
+
+    # 准备线程池用到的参数
     nones = [None for i in range(len(areas))]
     city_list = [city for i in range(len(areas))]
     args = zip(zip(city_list, areas), nones)
     # areas = areas[0: 1]
+
     # 针对每个板块写一个文件,启动一个线程来操作
-    # 使用线程池来做
     pool_size = 50
     pool = threadpool.ThreadPool(pool_size)
     requests = threadpool.makeRequests(collect_xiaoqu_data, args)
@@ -99,7 +105,7 @@ if __name__ == "__main__":
     pool.wait()
     pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出
 
-    # 计时结束
+    # 计时结束，统计结果
     t2 = time.time()
     print("Total crawl {0} areas.".format(len(areas)))
     print("Total cost {0} second to crawl {1} data items.".format(t2 - t1, total_num))
