@@ -6,6 +6,7 @@
 import urllib2
 from lxml import etree
 from lib.city.city import cities
+from lib.const.xpath import *
 
 chinese_city_district_dict = dict()     # 城市代码和中文名映射
 chinese_area_dict = dict()              # 版块代码和中文名映射
@@ -26,7 +27,7 @@ def get_districts(city):
     response = urllib2.urlopen(url, timeout=10)
     html = response.read()
     root = etree.HTML(html)
-    elements = root.xpath('/html/body/div[3]/div[1]/dl[2]/dd/div/div/a')
+    elements = root.xpath(CITY_DISTRICT_XPATH)
     en_names = list()
     ch_names = list()
     for element in elements:

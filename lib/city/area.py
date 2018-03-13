@@ -4,6 +4,7 @@
 # 获取各板块信息
 
 from lib.city.district import *
+from lib.const.xpath import *
 
 
 def get_district_url(city, district):
@@ -24,14 +25,12 @@ def get_areas(city, district):
     :return: 区县列表
     """
     page = get_district_url(city, district)
-    xpath = '/html/body/div[3]/div[1]/dl[2]/dd/div/div[2]/a'
-
     areas = list()
     try:
         response = urllib2.urlopen(page, timeout=10)
         html = response.read()
         root = etree.HTML(html)
-        links = root.xpath(xpath)
+        links = root.xpath(DISTRICT_AREA_XPATH)
 
         # 针对a标签的list进行处理
         for link in links:
