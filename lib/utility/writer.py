@@ -6,10 +6,6 @@
 from lib.utility.path import *
 
 
-def make_dir(dir_name):
-    pass
-
-
 def write_urls_to_file(file_name, urls):
     file_name = DATA_PATH + "/" + file_name
     txt_file = open(file_name, 'w')

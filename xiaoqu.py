@@ -18,6 +18,7 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
+    :param city: 城市
     :param area_name: 板块
     :param fmt: 保存文件格式
     :return: None

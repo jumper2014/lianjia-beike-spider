@@ -4,7 +4,6 @@
 
 import re
 from bs4 import BeautifulSoup
-from lib.const.xpath import *
 from lib.url.url_helper import *
 from lib.city.xiaoqu import *
 from lib.city.district import *
@@ -19,7 +18,8 @@ def get_xiaoqu_district_urls():
     print urls
     return urls
 
-def get_xiaoqu_district_url(district):
+
+def get_xiaoqu_district_url():
     """
     获取小区栏目下面的各区导航链接
     :return:
@@ -42,7 +42,7 @@ def get_xiaoqu_area_urls():
     return urls
 
 
-def get_xiaoqu_area(district):
+def get_xiaoqu_area():
     """
     获取小区栏目下面的各区下级板块导航链接
     :return:
@@ -91,9 +91,8 @@ def get_xiaoqu_info(city, area):
     #             total_page = int(last_page.text)
     #             break
 
-
     # 从第一页开始,一直遍历到最后一页
-    for i in range(1, total_page+1):
+    for i in range(1, total_page + 1):
         page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
         response = urllib2.urlopen(page, timeout=10)
         html = response.read()
@@ -121,5 +120,3 @@ if __name__ == "__main__":
     # urls = get_xiaoqu_area_urls()
     # print urls
     get_xiaoqu_info("sh", "beicai")
-
-
