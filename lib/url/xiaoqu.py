@@ -69,9 +69,9 @@ def get_xiaoqu_info(city, area):
     soup = BeautifulSoup(html, "lxml")
 
     # 获得总的页数
-    page_box = soup.find_all('div', class_='page-box')[0]
-    matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
     try:
+        page_box = soup.find_all('div', class_='page-box')[0]
+        matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
         total_page = int(matches.group(1))
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(area))
