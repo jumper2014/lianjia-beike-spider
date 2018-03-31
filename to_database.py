@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# coding=utf-8
+# author: zengyuetian
+# read data from csv, write to mysql
+
+import os
+import records
+from lib.utility.path import DATA_PATH
+from lib.city.city import *
+from lib.utility.date import *
+
+
+def create_prompt_text():
+    city_info = list()
+    count = 0
+    for en_name, ch_name in cities.items():
+        count += 1
+        city_info.append(en_name)
+        city_info.append(": ")
+        city_info.append(ch_name)
+        if count % 4 == 0:
+            city_info.append("\n")
+        else:
+            city_info.append(", ")
+    return 'Which city data do you want to save ?\n' + ''.join(city_info)
+
+
+if __name__ == '__main__':
+    db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8', encoding='utf-8')
+
+    # 让用户选择爬取哪个城市的二手房小区价格数据
+    prompt = create_prompt_text()
+    city = raw_input(prompt)
+    print('OK, start to process ' + get_chinese_city(city))
+
+    # 准备日期信息，爬到的数据存放到日期相关文件夹下
+    date = get_date_string()
+    # 获得 csv 文件路径
+    # date = "20180331"   # 指定采集数据的日期
+    # city = "sh"         # 指定采集数据的城市
+    city_ch = get_chinese_city(city)
+    csv_dir = "{0}/lianjia/{1}/{2}".format(DATA_PATH, city, date)
+
+    files = list()
+    for csv in os.listdir(csv_dir):
+        data_csv = csv_dir + "/" + csv
+        # print(data_csv)
+        files.append(data_csv)
+
+    # 清理数据
+    count = 0
+    for csv in files:
+        with open(csv, 'r') as f:
+            for line in f:
+                count += 1
+                text = line.strip()
+                try:
+                    # 如果小区名里面没有逗号，那么总共是6项
+                    if text.count(',') == 5:
+                        date, district, area, xiaoqu, price, sale = text.split(',')
+                    elif text.count(',') < 5:
+                        continue
+                    else:
+                        fields = text.split(',')
+                        date = fields[0]
+                        district = fields[1]
+                        area = fields[2]
+                        xiaoqu = ','.join(fields[3:-2])
+                        price = fields[-2]
+                        sale = fields[-1]
+                except Exception as e:
+                    print(text)
+                    print(e.message)
+                    continue
+                sale = sale.replace(r'套在售二手房', '')
+                price = price.replace(r'暂无', '0')
+                price = price.replace(r'元/m2', '')
+                price = int(price)
+                sale = int(sale)
+                print date, district, area, xiaoqu, price, sale
+                # 写入数据库
+                db.query('INSERT INTO xiaoqu (city, date, district, area, xiaoqu, price, sale) '
+                         'VALUES(:city, :date, :district, :area, :xiaoqu, :price, :sale)',
+                         city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
+
+    print("Total write {0} items to database.".format(count))
