@@ -22,7 +22,7 @@ cq: 重庆, wh: 武汉, hf: 合肥, yt: 烟台
 nj: 南京, 
 ```
 - 修改 to_database.py 中的database变量，设置数据最终存入mysql还是mongodb
-- python to_database.py 根据提示将采集到的csv数据存入数据库
+- python to_database.py 根据提示将今天采集到的csv数据存入数据库
 
 ### 性能
 - 300秒爬取上海市207个版块的2.7万条数据，平均每秒90条数据。

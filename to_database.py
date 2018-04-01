@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
     city = raw_input(prompt)
-    print('OK, start to process ' + get_chinese_city(city))
+
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date = get_date_string()
@@ -53,6 +53,13 @@ if __name__ == '__main__':
     csv_dir = "{0}/lianjia/{1}/{2}".format(DATA_PATH, city, date)
 
     files = list()
+    if not os.path.exists(csv_dir):
+        print("{0} does not exist.".format(csv_dir))
+        print("Please run 'python xiaoqu.py' firstly.")
+        print("Bye.")
+        exit(0)
+    else:
+        print('OK, start to process ' + get_chinese_city(city))
     for csv in os.listdir(csv_dir):
         data_csv = csv_dir + "/" + csv
         # print(data_csv)
