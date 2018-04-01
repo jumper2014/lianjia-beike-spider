@@ -4,6 +4,8 @@
 # read data from csv, write to mysql
 
 import os
+import pymysql
+pymysql.install_as_MySQLdb()
 from lib.utility.path import DATA_PATH
 from lib.city.city import *
 from lib.utility.date import *
@@ -41,7 +43,12 @@ if __name__ == '__main__':
 
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
-    city = raw_input(prompt)
+    import sys
+
+    if sys.version_info < (3, 0):  # 如果小于Python3
+        city = raw_input(prompt)
+    else:
+        city = input(prompt)
 
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
@@ -95,7 +102,7 @@ if __name__ == '__main__':
                 price = price.replace(r'元/m2', '')
                 price = int(price)
                 sale = int(sale)
-                print date, district, area, xiaoqu, price, sale
+                print("{0} {1} {2} {3} {4} {5}".format(date, district, area, xiaoqu, price, sale))
                 # 写入mysql数据库
                 if database == "mysql":
                     db.query('INSERT INTO xiaoqu (city, date, district, area, xiaoqu, price, sale) '

@@ -2,15 +2,15 @@
 # coding=utf-8
 # author: zengyuetian
 
-import urllib2
+import requests
 from lxml import etree
 from lib.const.url import *
 
 
 def get_urls_from_xpath(page, xpath, relative=True):
     try:
-        response = urllib2.urlopen(page)
-        html = response.read()
+        response = requests.get(page)
+        html = response.content
         root = etree.HTML(html)
         links = root.xpath(xpath)
         if relative:
@@ -21,4 +21,4 @@ def get_urls_from_xpath(page, xpath, relative=True):
         else:
             return [link.attrib['href'] for link in links]
     except Exception as e:
-        print e
+        print(e)

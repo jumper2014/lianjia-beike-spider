@@ -3,7 +3,7 @@
 # author: zengyuetian
 # 获得各城市的区县相关信息
 
-import urllib2
+import requests
 from lxml import etree
 from lib.city.city import cities
 from lib.const.xpath import *
@@ -24,8 +24,8 @@ def get_chinese_district(en):
 
 def get_districts(city):
     url = 'https://{0}.lianjia.com/xiaoqu/'.format(city)
-    response = urllib2.urlopen(url, timeout=10)
-    html = response.read()
+    response = requests.get(url, timeout=10)
+    html = response.content
     root = etree.HTML(html)
     elements = root.xpath(CITY_DISTRICT_XPATH)
     en_names = list()

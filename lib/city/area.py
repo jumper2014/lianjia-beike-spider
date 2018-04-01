@@ -27,8 +27,8 @@ def get_areas(city, district):
     page = get_district_url(city, district)
     areas = list()
     try:
-        response = urllib2.urlopen(page, timeout=10)
-        html = response.read()
+        response = requests.get(page, timeout=10)
+        html = response.content
         root = etree.HTML(html)
         links = root.xpath(DISTRICT_AREA_XPATH)
 
@@ -47,7 +47,7 @@ def get_areas(city, district):
                 areas.append(area)
         return areas
     except Exception as e:
-        print e
+        print(e)
 
 
 if __name__ == "__main__":

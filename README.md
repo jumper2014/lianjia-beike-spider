@@ -1,6 +1,6 @@
 # 链家网爬虫
 ### 功能介绍
-- 获取链家网小区房价数据。如果好用，请star。
+- 获取链家网小区房价数据。支持Python2和Python3，如果好用，请star。
 - 城市 city, 区县 district, 板块 area, 小区 xiaoqu。
 - 每个版块一个csv文件。
 - 内容格式：采集日期,所属区县,板块名,小区名,挂牌均价,挂牌数
@@ -37,6 +37,7 @@ Total cost 294.048109055 second to crawl 27256 data items.
 - MySQL数据库结构可以通过导入lianjia_xiaoqu.sql建立。
 
 ### 更新记录
+- 2018/04/01 同时支持Python2和Python3
 - 2018/04/01 支持将采集到的csv数据导入MongoDB数据库
 - 2018/03/31 支持将采集到的csv数据导入MySQL数据库
 - 2018/03/27 修复bug: 版块下只有一页小区数据时未能正确爬取 

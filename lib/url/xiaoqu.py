@@ -3,6 +3,7 @@
 # author: zengyuetian
 
 import re
+import requests
 from bs4 import BeautifulSoup
 from lib.url.url_helper import *
 from lib.city.xiaoqu import *
@@ -15,7 +16,7 @@ def get_xiaoqu_district_urls():
     :return:
     """
     urls = get_urls_from_xpath(SH_XIAOQU_BASE_URL, XIAOQU_QU_XPATH)
-    print urls
+    print(urls)
     return urls
 
 
@@ -25,7 +26,7 @@ def get_xiaoqu_district_url():
     :return:
     """
     urls = get_urls_from_xpath(SH_XIAOQU_BASE_URL, XIAOQU_QU_XPATH)
-    print urls
+    print(urls)
     return urls
 
 
@@ -64,8 +65,8 @@ def get_xiaoqu_info(city, area):
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
     print(page)
 
-    response = urllib2.urlopen(page, timeout=10)
-    html = response.read()
+    response = requests.get(page, timeout=10)
+    html = response.content
     soup = BeautifulSoup(html, "lxml")
 
     # 获得总的页数
@@ -94,8 +95,8 @@ def get_xiaoqu_info(city, area):
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
         page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
-        response = urllib2.urlopen(page, timeout=10)
-        html = response.read()
+        response = requests.get(page, timeout=10)
+        html = response.content
         soup = BeautifulSoup(html, "lxml")
 
         # 获得有小区信息的panel

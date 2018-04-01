@@ -3,9 +3,11 @@
 # author: zengyuetian
 # 小区信息的数据结构
 
+
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+if sys.version_info < (3, 0):   # 如果小于Python3
+    reload(sys)
+    sys.setdefaultencoding("utf-8")
 
 
 class XiaoQu(object):

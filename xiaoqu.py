@@ -62,7 +62,13 @@ def create_prompt_text():
 if __name__ == "__main__":
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
-    city = raw_input(prompt)
+    # 判断Python版本
+    import sys
+    if sys.version_info < (3, 0):   # 如果小于Python3
+        city = raw_input(prompt)
+    else:
+        city = input(prompt)
+
     print('OK, start to crawl ' + get_chinese_city(city))
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下

@@ -39,4 +39,4 @@ def get_chinese_city(en):
 
 
 if __name__ == '__main__':
-    print get_chinese_city("sh")
+    print(get_chinese_city("sh"))

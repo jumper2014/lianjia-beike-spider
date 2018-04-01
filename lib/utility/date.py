@@ -34,4 +34,4 @@ def get_year_month_string():
 
 
 if __name__ == "__main__":
-    print get_date_string()
+    print(get_date_string())
