@@ -4,7 +4,6 @@
 # read data from csv, write to mysql
 
 import os
-import records
 from lib.utility.path import DATA_PATH
 from lib.city.city import *
 from lib.utility.date import *
@@ -26,7 +25,19 @@ def create_prompt_text():
 
 
 if __name__ == '__main__':
-    db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8', encoding='utf-8')
+    # 设置目标数据库
+    # mysql or mongodb
+    database = "mysql"
+    # database = "mongodb"
+
+    if database == "mysql":
+        import records
+        db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8', encoding='utf-8')
+    elif database == "mongodb":
+        from pymongo import MongoClient
+        conn = MongoClient('localhost', 27017)
+        db = conn.lianjia  # 连接lianjia数据库，没有则自动创建
+        collection = db.xiaoqu  # 使用xiaoqu集合，没有则自动创建
 
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
@@ -78,9 +89,13 @@ if __name__ == '__main__':
                 price = int(price)
                 sale = int(sale)
                 print date, district, area, xiaoqu, price, sale
-                # 写入数据库
-                db.query('INSERT INTO xiaoqu (city, date, district, area, xiaoqu, price, sale) '
+                # 写入mysql数据库
+                if database == "mysql":
+                    db.query('INSERT INTO xiaoqu (city, date, district, area, xiaoqu, price, sale) '
                          'VALUES(:city, :date, :district, :area, :xiaoqu, :price, :sale)',
                          city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
-
+                # 写入mongodb数据库
+                elif database == "mongodb":
+                    data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
+                    collection.insert(data)
     print("Total write {0} items to database.".format(count))
