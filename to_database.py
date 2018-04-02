@@ -28,9 +28,10 @@ def create_prompt_text():
 
 if __name__ == '__main__':
     # 设置目标数据库
-    # mysql or mongodb
-    database = "mysql"
+    # mysql or mongodb or excel
+    # database = "mysql"
     # database = "mongodb"
+    database = "excel"
 
     if database == "mysql":
         import records
@@ -40,6 +41,10 @@ if __name__ == '__main__':
         conn = MongoClient('localhost', 27017)
         db = conn.lianjia  # 连接lianjia数据库，没有则自动创建
         collection = db.xiaoqu  # 使用xiaoqu集合，没有则自动创建
+    elif database == "excel":
+        import xlsxwriter
+        workbook = xlsxwriter.Workbook('xiaoqu.xlsx')
+        worksheet = workbook.add_worksheet()
 
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
@@ -74,10 +79,13 @@ if __name__ == '__main__':
 
     # 清理数据
     count = 0
+    row = 0
+    col = 0
     for csv in files:
         with open(csv, 'r') as f:
             for line in f:
                 count += 1
+
                 text = line.strip()
                 try:
                     # 如果小区名里面没有逗号，那么总共是6项
@@ -112,4 +120,24 @@ if __name__ == '__main__':
                 elif database == "mongodb":
                     data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
                     collection.insert(data)
+                elif database == "excel":
+                    if sys.version_info < (3, 0):
+                        worksheet.write_string(row, col, unicode(city_ch, 'utf-8'))
+                        worksheet.write_string(row, col + 1, date)
+                        worksheet.write_string(row, col + 2, unicode(district, 'utf-8'))
+                        worksheet.write_string(row, col + 3, unicode(area, 'utf-8'))
+                        worksheet.write_string(row, col + 4, unicode(xiaoqu, 'utf-8'))
+                        worksheet.write_number(row, col + 5, price)
+                        worksheet.write_number(row, col + 6, sale)
+                    else:
+                        worksheet.write_string(row, col, city_ch)
+                        worksheet.write_string(row, col + 1, date)
+                        worksheet.write_string(row, col + 2, district)
+                        worksheet.write_string(row, col + 3, area)
+                        worksheet.write_string(row, col + 4, xiaoqu)
+                        worksheet.write_number(row, col + 5, price)
+                        worksheet.write_number(row, col + 6, sale)
+                    row += 1
+    if database == "excel":
+        workbook.close()
     print("Total write {0} items to database.".format(count))

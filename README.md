@@ -9,6 +9,7 @@
 - MySQL数据格式: 城市 日期 所属区县 版块名 小区名 挂牌均价 挂牌数
 - MySQL数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
 - MongoDB数据内容: { "_id" : ObjectId("5ac0309332e3885598b3b751"), "city" : "上海", "district" : "黄浦", "area" : "五里桥", "date" : "20180331", "price" : 81805, "sale" : 11, "xiaoqu" : "桥一小区" }
+- Excel数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
 
 ### 运行
 - 将环境变量PYTHONPATH设置为当前目录
@@ -21,7 +22,7 @@ tj: 天津, qd: 青岛, cs: 长沙, su: 苏州
 cq: 重庆, wh: 武汉, hf: 合肥, yt: 烟台
 nj: 南京, 
 ```
-- 修改 to_database.py 中的database变量，设置数据最终存入mysql还是mongodb
+- 修改 to_database.py 中的database变量，设置数据最终存入mysql/mongodb/Excel
 - python to_database.py 根据提示将今天采集到的csv数据存入数据库
 
 ### 性能
@@ -37,6 +38,7 @@ Total cost 294.048109055 second to crawl 27256 data items.
 - MySQL数据库结构可以通过导入lianjia_xiaoqu.sql建立。
 
 ### 更新记录
+- 2018/04/02 支持将采集到的csv数据导入Excel
 - 2018/04/01 同时支持Python2和Python3
 - 2018/04/01 支持将采集到的csv数据导入MongoDB数据库
 - 2018/03/31 支持将采集到的csv数据导入MySQL数据库
