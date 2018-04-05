@@ -1,9 +1,7 @@
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的所有小区数据
-# 这些数据包括:
-# 日期,所属区县,板块名,小区名,挂牌均价,挂牌数
-# 20180221,浦东,川沙,恒纬家苑,32176元/m2,3套在售二手房
+# 获得指定城市的所有二手房数据
+
 
 import threadpool
 import threading
@@ -12,6 +10,7 @@ from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
+from lib.city.ershou import *
 
 
 def collect_xiaoqu_data(city, area_name, fmt="csv"):
@@ -39,6 +38,81 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
                 # print(date_string + "," + xiaoqu.text())
                 f.write(date_string + "," + xiaoqu.text()+"\n")
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
+
+def collect_area_ershou(city, area_name, fmt="csv"):
+    """
+    对于每个板块,获得这个板块下所有二手房的信息
+    并且将这些信息写入文件保存
+    :param city: 城市
+    :param area_name: 板块
+    :param fmt: 保存文件格式
+    :return: None
+    """
+    global total_num, today_path
+
+    csv_file = today_path + "/{0}.csv".format(area_name)
+    with open(csv_file, "w") as f:
+        # 开始获得需要的板块数据
+        ershous = get_area_ershou_info(city, area_name)
+        # 锁定
+        if mutex.acquire(1):
+            total_num += len(ershous)
+            # 释放
+            mutex.release()
+        if fmt == "csv":
+            for ershou in ershous:
+                # print(date_string + "," + xiaoqu.text())
+                f.write(date_string + "," + ershou.text()+"\n")
+    print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
+
+def get_area_ershou_info(city, area):
+    district = area_dict.get(area, "")
+    chinese_district = get_chinese_district(district)
+    chinese_area = chinese_area_dict.get(area, "")
+    ershou_list = list()
+    page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city, area)
+    print(page)
+
+    response = requests.get(page, timeout=10)
+    html = response.content
+    soup = BeautifulSoup(html, "lxml")
+
+    # 获得总的页数
+    try:
+        page_box = soup.find_all('div', class_='page-box')[0]
+        matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
+        total_page = int(matches.group(1))
+    except Exception as e:
+        print("\tWarning: only find one page for {0}".format(area))
+        print("\t" + e.message)
+        total_page = 1
+
+    # 从第一页开始,一直遍历到最后一页
+    for i in range(1, total_page + 1):
+        page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city, area, i)
+        print(page)
+        response = requests.get(page, timeout=10)
+        html = response.content
+        soup = BeautifulSoup(html, "lxml")
+
+        # 获得有小区信息的panel
+        house_elems = soup.find_all('li', class_="clear")
+        for house_elem in house_elems:
+            price = house_elem.find('div', class_="totalPrice")
+            name = house_elem.find('div', class_='title')
+            desc = house_elem.find('div', class_="houseInfo")
+
+            # 继续清理数据
+            price = price.text.strip()
+            name = name.text.replace("\n", "")
+            desc = desc.text.replace("\n", "").strip()
+
+            # 作为对象保存
+            ershou = ErShou(chinese_district, chinese_area, name, price, desc)
+            ershou_list.append(ershou)
+    return ershou_list
 
 
 def create_prompt_text():
@@ -74,7 +148,7 @@ if __name__ == "__main__":
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("lianjia", city, date_string)
+    today_path = create_date_path("ershou", city, date_string)
 
     mutex = threading.Lock()    # 创建锁
     total_num = 0               # 总的小区个数，用于统计
@@ -107,7 +181,7 @@ if __name__ == "__main__":
     # 针对每个板块写一个文件,启动一个线程来操作
     pool_size = 50
     pool = threadpool.ThreadPool(pool_size)
-    my_requests = threadpool.makeRequests(collect_xiaoqu_data, args)
+    my_requests = threadpool.makeRequests(collect_area_ershou, args)
     [pool.putRequest(req) for req in my_requests]
     pool.wait()
     pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出
