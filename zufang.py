@@ -16,33 +16,6 @@ from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
 
 
-def collect_xiaoqu_data(city, area_name, fmt="csv"):
-    """
-    对于每个板块,获得这个板块下所有小区的信息
-    并且将这些信息写入文件保存
-    :param city: 城市
-    :param area_name: 板块
-    :param fmt: 保存文件格式
-    :return: None
-    """
-    global total_num, today_path
-
-    csv_file = today_path + "/{0}.csv".format(area_name)
-    with open(csv_file, "w") as f:
-        # 开始获得需要的板块数据
-        xqs = get_xiaoqu_info(city, area_name)
-        # 锁定
-        if mutex.acquire(1):
-            total_num += len(xqs)
-            # 释放
-            mutex.release()
-        if fmt == "csv":
-            for xiaoqu in xqs:
-                # print(date_string + "," + xiaoqu.text())
-                f.write(date_string + "," + xiaoqu.text()+"\n")
-    print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
-
-
 def collect_area_zufang(city, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有出租房的信息
@@ -134,7 +107,6 @@ if __name__ == "__main__":
         city = raw_input(prompt)
     else:
         city = input(prompt)
-
     print('OK, start to crawl ' + get_chinese_city(city))
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下

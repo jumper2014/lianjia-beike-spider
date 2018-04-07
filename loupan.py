@@ -4,16 +4,14 @@
 # 获得指定城市的所有出租房数据
 
 
-import threadpool
-import threading
 import math
 from lib.utility.date import *
-from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
 from lib.city.loupan import *
 from lib.utility.version import PYTHON_3
+
 
 def collect_city_loupan(city, fmt="csv"):
     """
@@ -31,7 +29,7 @@ def collect_city_loupan(city, fmt="csv"):
         total_num = len(loupans)
         if fmt == "csv":
             for loupan in loupans:
-                f.write(date_string + "," + loupan.text()+"\n")
+                f.write(date_string + "," + loupan.text() + "\n")
     print("Finish crawl: " + city + ", save data to : " + csv_file)
 
 
@@ -48,7 +46,7 @@ def get_loupan_info(city):
     try:
         page_box = soup.find_all('div', class_='page-box')[0]
         matches = re.search('.*data-total-count="(\d+)".*', str(page_box))
-        total_page = math.ceil(int(matches.group(1))/10)
+        total_page = math.ceil(int(matches.group(1)) / 10)
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(city))
         print("\t" + e.message)
@@ -101,18 +99,16 @@ if __name__ == "__main__":
         city = raw_input(prompt)
     else:
         city = input(prompt)
-
     print('OK, start to crawl ' + get_chinese_city(city))
+
     total_num = 0
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
     today_path = create_date_path("loupan", city, date_string)
-
-    t1 = time.time()            # 开始计时
+    t1 = time.time()  # 开始计时
 
     collect_city_loupan(city)
-
     # 计时结束，统计结果
     t2 = time.time()
     print("Total crawl {0} loupan.".format(total_num))
