@@ -12,6 +12,7 @@ from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
+from lib.utility.version import PYTHON_3
 
 
 def collect_xiaoqu_data(city, area_name, fmt="csv"):
@@ -41,21 +42,6 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
-def create_prompt_text():
-    city_info = list()
-    count = 0
-    for en_name, ch_name in cities.items():
-        count += 1
-        city_info.append(en_name)
-        city_info.append(": ")
-        city_info.append(ch_name)
-        if count % 4 == 0:
-            city_info.append("\n")
-        else:
-            city_info.append(", ")
-    return 'Which city do you want to crawl?\n' + ''.join(city_info)
-
-
 # -------------------------------
 # main函数从这里开始
 # -------------------------------
@@ -63,8 +49,7 @@ if __name__ == "__main__":
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
     # 判断Python版本
-    import sys
-    if sys.version_info < (3, 0):   # 如果小于Python3
+    if not PYTHON_3:    # 如果小于Python3
         city = raw_input(prompt)
     else:
         city = input(prompt)
@@ -74,7 +59,7 @@ if __name__ == "__main__":
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("lianjia", city, date_string)
+    today_path = create_date_path("xiaoqu", city, date_string)
 
     mutex = threading.Lock()    # 创建锁
     total_num = 0               # 总的小区个数，用于统计

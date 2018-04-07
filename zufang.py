@@ -1,6 +1,6 @@
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的所有二手房数据
+# 获得指定城市的所有出租房数据
 
 
 import threadpool
@@ -10,8 +10,9 @@ from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
-from lib.city.ershou import *
+from lib.city.zufang import *
 from lib.utility.version import PYTHON_3
+from lib.const.spider import thread_pool_size
 
 
 def collect_xiaoqu_data(city, area_name, fmt="csv"):
@@ -41,9 +42,9 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
-def collect_area_ershou(city, area_name, fmt="csv"):
+def collect_area_zufang(city, area_name, fmt="csv"):
     """
-    对于每个板块,获得这个板块下所有二手房的信息
+    对于每个板块,获得这个板块下所有出租房的信息
     并且将这些信息写入文件保存
     :param city: 城市
     :param area_name: 板块
@@ -55,25 +56,24 @@ def collect_area_ershou(city, area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        ershous = get_area_ershou_info(city, area_name)
+        zufangs = get_area_zufang_info(city, area_name)
         # 锁定
         if mutex.acquire(1):
-            total_num += len(ershous)
+            total_num += len(zufangs)
             # 释放
             mutex.release()
         if fmt == "csv":
-            for ershou in ershous:
-                # print(date_string + "," + xiaoqu.text())
-                f.write(date_string + "," + ershou.text()+"\n")
+            for zufang in zufangs:
+                f.write(date_string + "," + zufang.text()+"\n")
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
-def get_area_ershou_info(city, area):
+def get_area_zufang_info(city, area):
     district = area_dict.get(area, "")
     chinese_district = get_chinese_district(district)
     chinese_area = chinese_area_dict.get(area, "")
-    ershou_list = list()
-    page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city, area)
+    zufang_list = list()
+    page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city, area)
     print(page)
 
     response = requests.get(page, timeout=10)
@@ -92,35 +92,41 @@ def get_area_ershou_info(city, area):
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city, area, i)
+        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city, area, i)
         print(page)
         response = requests.get(page, timeout=10)
         html = response.content
         soup = BeautifulSoup(html, "lxml")
 
         # 获得有小区信息的panel
-        house_elems = soup.find_all('li', class_="clear")
+        ul_element = soup.find('ul', class_="house-lst")
+        house_elems = ul_element.find_all('li')
         for house_elem in house_elems:
-            price = house_elem.find('div', class_="totalPrice")
-            name = house_elem.find('div', class_='title')
-            desc = house_elem.find('div', class_="houseInfo")
+            price = house_elem.find('span', class_="num")
+            xiaoqu = house_elem.find('span', class_='region')
+            layout = house_elem.find('span', class_="zone")
+            size = house_elem.find('span', class_="meters")
 
             # 继续清理数据
             price = price.text.strip()
-            name = name.text.replace("\n", "")
-            desc = desc.text.replace("\n", "").strip()
+            xiaoqu = xiaoqu.text.replace("\n", "")
+            layout = layout.text.strip()
+            size = size.text.strip()
+
+            # print("{0} {1} {2} {3} {4} {5} {6}".format(
+            #     chinese_district, chinese_area, xiaoqu, layout, size, price))
 
             # 作为对象保存
-            ershou = ErShou(chinese_district, chinese_area, name, price, desc)
-            ershou_list.append(ershou)
-    return ershou_list
+            zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price)
+            zufang_list.append(zufang)
+    return zufang_list
 
 
 # -------------------------------
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    # 让用户选择爬取哪个城市的二手房小区价格数据
+    # 让用户选择爬取哪个城市的出租房价格数据
     prompt = create_prompt_text()
     # 判断Python版本
     if not PYTHON_3:  # 如果小于Python3
@@ -133,7 +139,9 @@ if __name__ == "__main__":
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("ershou", city, date_string)
+    today_path = create_date_path("zufang", city, date_string)
+
+    # collect_area_zufang('sh', 'beicai')  # For debugging, keep it here
 
     mutex = threading.Lock()    # 创建锁
     total_num = 0               # 总的小区个数，用于统计
@@ -164,9 +172,9 @@ if __name__ == "__main__":
     # areas = areas[0: 1]
 
     # 针对每个板块写一个文件,启动一个线程来操作
-    pool_size = 50
+    pool_size = thread_pool_size
     pool = threadpool.ThreadPool(pool_size)
-    my_requests = threadpool.makeRequests(collect_area_ershou, args)
+    my_requests = threadpool.makeRequests(collect_area_zufang, args)
     [pool.putRequest(req) for req in my_requests]
     pool.wait()
     pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出

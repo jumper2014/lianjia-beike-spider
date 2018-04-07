@@ -10,17 +10,19 @@ if not PYTHON_3:   # 如果小于Python3
     sys.setdefaultencoding("utf-8")
 
 
-class ErShou(object):
-    def __init__(self, district, area, name, price, desc):
+class ZuFang(object):
+    def __init__(self, district, area, xiaoqu, layout, size, price):
         self.district = district
         self.area = area
+        self.xiaoqu = xiaoqu
+        self.layout = layout
+        self.size = size
         self.price = price
-        self.name = name
-        self.desc = desc
 
     def text(self):
         return self.district + "," + \
                 self.area + "," + \
-                self.name + "," + \
-                self.price + "," + \
-                self.desc
+                self.xiaoqu + "," + \
+                self.layout + "," + \
+                self.size + "," + \
+                self.price

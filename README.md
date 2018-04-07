@@ -1,7 +1,7 @@
-# 链家网爬虫
-- 获取链家网房价数据（小区数据，挂牌二手房数据）。如果好用，请star。
+# 链家网(lianjia.com)爬虫
+- 获取链家网房价数据（小区数据，挂牌二手房, 出租房）。如果好用，请star。
 - 支持Python2和Python3。
-- 城市 city, 区县 district, 板块 area, 小区 xiaoqu, 二手房 ershou。
+- 城市 city, 区县 district, 板块 area, 小区 xiaoqu, 二手房 ershou, 租房 zufang。
 - 每个版块一个csv文件。
 
 ## 小区房价数据爬取
@@ -12,9 +12,7 @@
 - MySQL数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
 - MongoDB数据内容: { "_id" : ObjectId("5ac0309332e3885598b3b751"), "city" : "上海", "district" : "黄浦", "area" : "五里桥", "date" : "20180331", "price" : 81805, "sale" : 11, "xiaoqu" : "桥一小区" }
 - Excel数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
-
-#### 运行
-- 将环境变量PYTHONPATH设置为当前目录
+- 运行, 将环境变量PYTHONPATH设置为当前目录
 - python xiaoqu.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 ```
 hz: 杭州, sz: 深圳, dl: 大连, fs: 佛山
@@ -30,18 +28,15 @@ nj: 南京,
 ## 挂牌二手房数据爬取
 - 获取链家网挂牌二手房价数据，数据格式如下：
 - 20180405,浦东,万祥镇,祥安菊苑 3室2厅 258万,258万,祥安菊苑  | 3室2厅 | 126.58平米 | 南 | 毛坯
-
-#### 运行
-- 将环境变量PYTHONPATH设置为当前目录
+- 运行，将环境变量PYTHONPATH设置为当前目录
 - python ershou.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
-```
-hz: 杭州, sz: 深圳, dl: 大连, fs: 佛山
-xm: 厦门, dg: 东莞, gz: 广州, bj: 北京
-cd: 成都, sy: 沈阳, jn: 济南, sh: 上海
-tj: 天津, qd: 青岛, cs: 长沙, su: 苏州
-cq: 重庆, wh: 武汉, hf: 合肥, yt: 烟台
-nj: 南京, 
-```
+
+
+## 出租房数据爬取
+- 获取链家网挂牌出租房数据，数据格式如下：
+- 20180407,浦东,御桥,仁和都市花园  ,3室2厅,100平米,8000
+- 运行，将环境变量PYTHONPATH设置为当前目录
+- python zufang.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 
 
 ## 性能
@@ -55,15 +50,20 @@ Total cost 294.048109055 second to crawl 27256 data items.
 Total crawl 215 areas.
 Total cost 1028.3090899 second to crawl 75448 data items.
 ```
-
+- 300秒爬取上海215个版块的3.2万条出租房数据, 平均每秒150条数据。
+```
+Total crawl 215 areas.
+Total cost 299.7534770965576 second to crawl 32735 data items.
+```
 
 
 ### 结果存储
 - 根目录下建立data目录存放结果数据文件
-- 存储目录为 data/lianjia/city/date
+- 存储目录为 data/xiaoqu/city/date
 - MySQL数据库结构可以通过导入lianjia_xiaoqu.sql建立。
 
 ### 更新记录
+- 2018/04/07 支持采集出租房信息
 - 2018/04/05 支持采集挂牌二手房信息
 - 2018/04/02 支持将采集到的csv数据导入Excel
 - 2018/04/01 同时支持Python2和Python3
@@ -75,4 +75,3 @@ Total cost 1028.3090899 second to crawl 75448 data items.
 - 2018/03/06 支持北京二手房小区数据采集
 - 2018/02/21 应对链家前端页面更新，使用内置urllib2代替第三方requests库,提升性能，减少依赖
 - 2018/02/01 支持上海二手房小区数据采集
-

@@ -62,7 +62,7 @@ if __name__ == '__main__':
     # date = "20180331"   # 指定采集数据的日期
     # city = "sh"         # 指定采集数据的城市
     city_ch = get_chinese_city(city)
-    csv_dir = "{0}/lianjia/{1}/{2}".format(DATA_PATH, city, date)
+    csv_dir = "{0}/xiaoqu/{1}/{2}".format(DATA_PATH, city, date)
 
     files = list()
     if not os.path.exists(csv_dir):
