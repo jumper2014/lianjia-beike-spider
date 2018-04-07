@@ -26,8 +26,8 @@ tj: 天津, qd: 青岛, cs: 长沙, su: 苏州
 cq: 重庆, wh: 武汉, hf: 合肥, yt: 烟台
 nj: 南京, 
 ```
-- 修改 to_database.py 中的database变量，设置数据最终存入mysql/mongodb/Excel
-- python to_database.py 根据提示将今天采集到的csv数据存入数据库
+- 修改 xiaoqu_to_db.py 中的database变量，设置数据最终存入mysql/mongodb/Excel
+- python xiaoqu_to_db.py 根据提示将今天采集到的csv数据存入数据库
 
 ## 挂牌二手房数据爬取
 - 获取链家网挂牌二手房价数据，数据格式如下：
