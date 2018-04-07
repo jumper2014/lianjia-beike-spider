@@ -1,7 +1,7 @@
 # 链家网(lianjia.com)爬虫
-- 获取链家网房价数据（小区数据，挂牌二手房, 出租房）。如果好用，请star！！！
+- 获取链家网房价数据（小区数据，挂牌二手房, 出租房，新房）。如果好用，请star！！！
 - 支持Python2和Python3。
-- 城市 city, 区县 district, 板块 area, 小区 xiaoqu, 二手房 ershou, 租房 zufang。
+- 城市 city, 区县 district, 板块 area, 小区 xiaoqu, 二手房 ershou, 租房 zufang， 新房 loupan。
 - 每个版块一个csv文件。
 - 将环境变量PYTHONPATH设置为当前目录
 
@@ -36,6 +36,11 @@ nj: 南京,
 - 20180407,浦东,御桥,仁和都市花园  ,3室2厅,100平米,8000
 - 运行，python zufang.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 
+## 新房数据爬取
+- 获取链家网新房数据，数据格式如下：
+- 20180407,上海星河湾,76000,1672万
+- 运行，python loupan.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
+
 
 ## 性能
 - 300秒爬取上海市207个版块的2.7万条小区数据，平均每秒90条数据。
@@ -53,16 +58,22 @@ Total cost 1028.3090899 second to crawl 75448 data items.
 Total crawl 215 areas.
 Total cost 299.7534770965576 second to crawl 32735 data items.
 ```
-
+- 30秒爬取上海400个新盘数据。
+```
+Total crawl 400 loupan.
+Total cost 29.757128953933716 second
+```
 
 ## 结果存储
 - 根目录下建立data目录存放结果数据文件
 - 小区房价数据存储目录为 data/xiaoqu/city/date
-- 二手房价数据存储目录为 data/xiaoqu/ershou/date
-- 出租房价数据存储目录为 data/xiaoqu/zufang/date
+- 二手房房价数据存储目录为 data/xiaoqu/ershou/date
+- 出租房房价数据存储目录为 data/xiaoqu/zufang/date
+- 新房房价数据存储目录为 data/xiaoqu/loupan/date
 - MySQL数据库结构可以通过导入lianjia_xiaoqu.sql建立。
 
 ### 更新记录
+- 2018/04/07 支持采集新房基本房价信息
 - 2018/04/07 支持采集出租房信息
 - 2018/04/05 支持采集挂牌二手房信息
 - 2018/04/02 支持将采集到的csv数据导入Excel
