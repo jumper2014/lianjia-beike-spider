@@ -1,8 +1,9 @@
 # 链家网(lianjia.com)爬虫
-- 获取链家网房价数据（小区数据，挂牌二手房, 出租房）。如果好用，请star。
+- 获取链家网房价数据（小区数据，挂牌二手房, 出租房）。如果好用，请star！！！
 - 支持Python2和Python3。
 - 城市 city, 区县 district, 板块 area, 小区 xiaoqu, 二手房 ershou, 租房 zufang。
 - 每个版块一个csv文件。
+- 将环境变量PYTHONPATH设置为当前目录
 
 ## 小区房价数据爬取
 - 内容格式：采集日期,所属区县,板块名,小区名,挂牌均价,挂牌数
@@ -12,8 +13,7 @@
 - MySQL数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
 - MongoDB数据内容: { "_id" : ObjectId("5ac0309332e3885598b3b751"), "city" : "上海", "district" : "黄浦", "area" : "五里桥", "date" : "20180331", "price" : 81805, "sale" : 11, "xiaoqu" : "桥一小区" }
 - Excel数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
-- 运行, 将环境变量PYTHONPATH设置为当前目录
-- python xiaoqu.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
+- 运行, python xiaoqu.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 ```
 hz: 杭州, sz: 深圳, dl: 大连, fs: 佛山
 xm: 厦门, dg: 东莞, gz: 广州, bj: 北京
@@ -28,15 +28,13 @@ nj: 南京,
 ## 挂牌二手房数据爬取
 - 获取链家网挂牌二手房价数据，数据格式如下：
 - 20180405,浦东,万祥镇,祥安菊苑 3室2厅 258万,258万,祥安菊苑  | 3室2厅 | 126.58平米 | 南 | 毛坯
-- 运行，将环境变量PYTHONPATH设置为当前目录
-- python ershou.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
+- 运行，python ershou.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 
 
 ## 出租房数据爬取
 - 获取链家网挂牌出租房数据，数据格式如下：
 - 20180407,浦东,御桥,仁和都市花园  ,3室2厅,100平米,8000
-- 运行，将环境变量PYTHONPATH设置为当前目录
-- python zufang.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
+- 运行，python zufang.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
 
 
 ## 性能
@@ -57,9 +55,11 @@ Total cost 299.7534770965576 second to crawl 32735 data items.
 ```
 
 
-### 结果存储
+## 结果存储
 - 根目录下建立data目录存放结果数据文件
-- 存储目录为 data/xiaoqu/city/date
+- 小区房价数据存储目录为 data/xiaoqu/city/date
+- 二手房价数据存储目录为 data/xiaoqu/ershou/date
+- 出租房价数据存储目录为 data/xiaoqu/zufang/date
 - MySQL数据库结构可以通过导入lianjia_xiaoqu.sql建立。
 
 ### 更新记录

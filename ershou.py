@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # coding=utf-8
 # author: Zeng YueTian
 # 获得指定城市的所有二手房数据
@@ -12,6 +13,7 @@ from lib.url.xiaoqu import *
 from lib.city.city import *
 from lib.city.ershou import *
 from lib.utility.version import PYTHON_3
+from lib.const.spider import thread_pool_size
 
 
 def collect_xiaoqu_data(city, area_name, fmt="csv"):
@@ -164,7 +166,7 @@ if __name__ == "__main__":
     # areas = areas[0: 1]
 
     # 针对每个板块写一个文件,启动一个线程来操作
-    pool_size = 50
+    pool_size = thread_pool_size
     pool = threadpool.ThreadPool(pool_size)
     my_requests = threadpool.makeRequests(collect_area_ershou, args)
     [pool.putRequest(req) for req in my_requests]
