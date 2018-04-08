@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的所有出租房数据
+# 获得指定城市的出租房数据
 
 
 import threadpool
@@ -16,11 +16,11 @@ from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
 
 
-def collect_area_zufang(city, area_name, fmt="csv"):
+def collect_area_zufang(city_name, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有出租房的信息
     并且将这些信息写入文件保存
-    :param city: 城市
+    :param city_name: 城市
     :param area_name: 板块
     :param fmt: 保存文件格式
     :return: None
@@ -30,7 +30,7 @@ def collect_area_zufang(city, area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        zufangs = get_area_zufang_info(city, area_name)
+        zufangs = get_area_zufang_info(city_name, area_name)
         # 锁定
         if mutex.acquire(1):
             total_num += len(zufangs)
@@ -42,12 +42,18 @@ def collect_area_zufang(city, area_name, fmt="csv"):
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
-def get_area_zufang_info(city, area):
-    district = area_dict.get(area, "")
+def get_area_zufang_info(city_name, area_name):
+    """
+    通过爬取页面获取城市指定版块的租房信息
+    :param city_name: 城市
+    :param area_name: 版块
+    :return: 出租房信息列表
+    """
+    district = area_dict.get(area_name, "")
     chinese_district = get_chinese_district(district)
-    chinese_area = chinese_area_dict.get(area, "")
+    chinese_area = chinese_area_dict.get(area_name, "")
     zufang_list = list()
-    page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city, area)
+    page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city_name, area_name)
     print(page)
 
     response = requests.get(page, timeout=10)
@@ -60,13 +66,13 @@ def get_area_zufang_info(city, area):
         matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
         total_page = int(matches.group(1))
     except Exception as e:
-        print("\tWarning: only find one page for {0}".format(area))
+        print("\tWarning: only find one page for {0}".format(area_name))
         print("\t" + e.message)
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city, area, i)
+        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city_name, area_name, i)
         print(page)
         response = requests.get(page, timeout=10)
         html = response.content
@@ -74,8 +80,8 @@ def get_area_zufang_info(city, area):
 
         # 获得有小区信息的panel
         ul_element = soup.find('ul', class_="house-lst")
-        house_elems = ul_element.find_all('li')
-        for house_elem in house_elems:
+        house_elements = ul_element.find_all('li')
+        for house_elem in house_elements:
             price = house_elem.find('span', class_="num")
             xiaoqu = house_elem.find('span', class_='region')
             layout = house_elem.find('span', class_="zone")

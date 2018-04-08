@@ -16,13 +16,18 @@ area_dict = dict()
 def get_chinese_district(en):
     """
     拼音区县名转中文区县名
-    :param en: 拼音
+    :param en: 英文
     :return: 中文
     """
     return chinese_city_district_dict.get(en, None)
 
 
 def get_districts(city):
+    """
+    获取各城市的区县中英文对照信息
+    :param city: 城市
+    :return: 英文区县名列表
+    """
     url = 'https://{0}.lianjia.com/xiaoqu/'.format(city)
     response = requests.get(url, timeout=10)
     html = response.content

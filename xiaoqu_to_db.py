@@ -9,6 +9,7 @@ pymysql.install_as_MySQLdb()
 from lib.utility.path import DATA_PATH
 from lib.city.city import *
 from lib.utility.date import *
+from lib.utility.version import PYTHON_3
 
 
 def create_prompt_text():
@@ -121,7 +122,7 @@ if __name__ == '__main__':
                     data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
                     collection.insert(data)
                 elif database == "excel":
-                    if sys.version_info < (3, 0):
+                    if not PYTHON_3:
                         worksheet.write_string(row, col, unicode(city_ch, 'utf-8'))
                         worksheet.write_string(row, col + 1, date)
                         worksheet.write_string(row, col + 2, unicode(district, 'utf-8'))

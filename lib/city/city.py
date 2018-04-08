@@ -2,7 +2,8 @@
 # coding=utf-8
 # author: zengyuetian
 # 城市缩写和城市名的映射
-# 想抓取其他已有城市的话，把相关城市信息放入下面的字典中
+# 想抓取其他已有城市的话，需要把相关城市信息放入下面的字典中
+# 不过暂时只有下面这些城市在链家上是统一样式
 
 cities = {
     'bj': '北京',
@@ -30,6 +31,10 @@ cities = {
 
 
 def create_prompt_text():
+    """
+    根据已有城市中英文对照表拼接选择提示信息
+    :return: 拼接好的字串
+    """
     city_info = list()
     count = 0
     for en_name, ch_name in cities.items():

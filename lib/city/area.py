@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
-# 获取各板块信息
+# 板块信息相关函数
 
 from lib.city.district import *
 from lib.const.xpath import *
@@ -10,8 +10,8 @@ from lib.const.xpath import *
 def get_district_url(city, district):
     """
     拼接指定城市的区县url
-    :param city:
-    :param district:
+    :param city: 城市
+    :param district: 区县
     :return:
     """
     return "http://{0}.lianjia.com/xiaoqu/{1}".format(city, district)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的所有小区数据
+# 获得指定城市的小区数据
 # 这些数据包括:
 # 日期,所属区县,板块名,小区名,挂牌均价,挂牌数
 # 20180221,浦东,川沙,恒纬家苑,32176元/m2,3套在售二手房
@@ -17,11 +17,11 @@ from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
 
 
-def collect_xiaoqu_data(city, area_name, fmt="csv"):
+def collect_xiaoqu_data(city_name, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
-    :param city: 城市
+    :param city_name: 城市
     :param area_name: 板块
     :param fmt: 保存文件格式
     :return: None
@@ -31,7 +31,7 @@ def collect_xiaoqu_data(city, area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        xqs = get_xiaoqu_info(city, area_name)
+        xqs = get_xiaoqu_info(city_name, area_name)
         # 锁定
         if mutex.acquire(1):
             total_num += len(xqs)

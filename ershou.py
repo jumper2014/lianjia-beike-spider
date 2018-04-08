@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: Zeng YueTian
-# 获得指定城市的所有二手房数据
+# 获得指定城市的二手房数据
 
 
 import threadpool
@@ -16,11 +16,11 @@ from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
 
 
-def collect_area_ershou(city, area_name, fmt="csv"):
+def collect_area_ershou(city_name, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有二手房的信息
     并且将这些信息写入文件保存
-    :param city: 城市
+    :param city_name: 城市
     :param area_name: 板块
     :param fmt: 保存文件格式
     :return: None
@@ -30,7 +30,7 @@ def collect_area_ershou(city, area_name, fmt="csv"):
     csv_file = today_path + "/{0}.csv".format(area_name)
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
-        ershous = get_area_ershou_info(city, area_name)
+        ershous = get_area_ershou_info(city_name, area_name)
         # 锁定
         if mutex.acquire(1):
             total_num += len(ershous)
@@ -43,12 +43,19 @@ def collect_area_ershou(city, area_name, fmt="csv"):
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
-def get_area_ershou_info(city, area):
-    district = area_dict.get(area, "")
+def get_area_ershou_info(city_name, area_name):
+    """
+    通过爬取页面获得城市指定版块的二手房信息
+    :param city_name: 城市
+    :param area_name: 版块
+    :return: 二手房数据列表
+    """
+    district = area_dict.get(area_name, "")
     chinese_district = get_chinese_district(district)
-    chinese_area = chinese_area_dict.get(area, "")
+    chinese_area = chinese_area_dict.get(area_name, "")
+
     ershou_list = list()
-    page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city, area)
+    page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city_name, area_name)
     print(page)
 
     response = requests.get(page, timeout=10)
@@ -61,21 +68,21 @@ def get_area_ershou_info(city, area):
         matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
         total_page = int(matches.group(1))
     except Exception as e:
-        print("\tWarning: only find one page for {0}".format(area))
+        print("\tWarning: only find one page for {0}".format(area_name))
         print("\t" + e.message)
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city, area, i)
+        page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city_name, area_name, i)
         print(page)
         response = requests.get(page, timeout=10)
         html = response.content
         soup = BeautifulSoup(html, "lxml")
 
         # 获得有小区信息的panel
-        house_elems = soup.find_all('li', class_="clear")
-        for house_elem in house_elems:
+        house_elements = soup.find_all('li', class_="clear")
+        for house_elem in house_elements:
             price = house_elem.find('div', class_="totalPrice")
             name = house_elem.find('div', class_='title')
             desc = house_elem.find('div', class_="houseInfo")
@@ -102,7 +109,6 @@ if __name__ == "__main__":
         city = raw_input(prompt)
     else:
         city = input(prompt)
-
     print('OK, start to crawl ' + get_chinese_city(city))
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
@@ -136,7 +142,7 @@ if __name__ == "__main__":
     nones = [None for i in range(len(areas))]
     city_list = [city for i in range(len(areas))]
     args = zip(zip(city_list, areas), nones)
-    # areas = areas[0: 1]
+    # areas = areas[0: 1]   # For debugging
 
     # 针对每个板块写一个文件,启动一个线程来操作
     pool_size = thread_pool_size
