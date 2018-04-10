@@ -48,10 +48,10 @@ nj: 南京,
 
 ## 结果存储
 - 根目录下建立data目录存放结果数据文件
-- 小区房价数据存储目录为 data/xiaoqu/<city>/<date>
-- 二手房房价数据存储目录为 data/ershou/<city>/<date>
-- 出租房房价数据存储目录为 data/zufang/<city>/<date>
-- 新房房价数据存储目录为 data/loupan/<city>/<date>
+- 小区房价数据存储目录为 data/xiaoqu/city/date
+- 二手房房价数据存储目录为 data/ershou/city/date
+- 出租房房价数据存储目录为 data/zufang/city/date
+- 新房房价数据存储目录为 data/loupan/city/date
 
 ## 性能
 - 300秒爬取上海市207个版块的2.7万条小区数据，平均每秒90条数据。

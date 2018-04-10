@@ -49,8 +49,8 @@ def get_area_zufang_info(city_name, area_name):
     :param area_name: 版块
     :return: 出租房信息列表
     """
-    district = area_dict.get(area_name, "")
-    chinese_district = get_chinese_district(district)
+    district_name = area_dict.get(area_name, "")
+    chinese_district = get_chinese_district(district_name)
     chinese_area = chinese_area_dict.get(area_name, "")
     zufang_list = list()
     page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city_name, area_name)
@@ -71,8 +71,8 @@ def get_area_zufang_info(city_name, area_name):
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
-    for i in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city_name, area_name, i)
+    for num in range(1, total_page + 1):
+        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city_name, area_name, num)
         print(page)
         response = requests.get(page, timeout=10)
         html = response.content

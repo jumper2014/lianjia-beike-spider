@@ -5,22 +5,24 @@
 
 import os
 import pymysql
-pymysql.install_as_MySQLdb()
+
 from lib.utility.path import DATA_PATH
 from lib.city.city import *
 from lib.utility.date import *
 from lib.utility.version import PYTHON_3
 
+pymysql.install_as_MySQLdb()
+
 
 def create_prompt_text():
     city_info = list()
-    count = 0
+    num = 0
     for en_name, ch_name in cities.items():
-        count += 1
+        num += 1
         city_info.append(en_name)
         city_info.append(": ")
         city_info.append(ch_name)
-        if count % 4 == 0:
+        if num % 4 == 0:
             city_info.append("\n")
         else:
             city_info.append(", ")
@@ -33,17 +35,23 @@ if __name__ == '__main__':
     # database = "mysql"
     # database = "mongodb"
     database = "excel"
+    db = None
+    collection = None
+    workbook = None
 
     if database == "mysql":
         import records
+
         db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8', encoding='utf-8')
     elif database == "mongodb":
         from pymongo import MongoClient
+
         conn = MongoClient('localhost', 27017)
         db = conn.lianjia  # 连接lianjia数据库，没有则自动创建
         collection = db.xiaoqu  # 使用xiaoqu集合，没有则自动创建
     elif database == "excel":
         import xlsxwriter
+
         workbook = xlsxwriter.Workbook('xiaoqu.xlsx')
         worksheet = workbook.add_worksheet()
 
@@ -55,7 +63,6 @@ if __name__ == '__main__':
         city = raw_input(prompt)
     else:
         city = input(prompt)
-
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date = get_date_string()
@@ -115,11 +122,13 @@ if __name__ == '__main__':
                 # 写入mysql数据库
                 if database == "mysql":
                     db.query('INSERT INTO xiaoqu (city, date, district, area, xiaoqu, price, sale) '
-                         'VALUES(:city, :date, :district, :area, :xiaoqu, :price, :sale)',
-                         city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
+                             'VALUES(:city, :date, :district, :area, :xiaoqu, :price, :sale)',
+                             city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price,
+                             sale=sale)
                 # 写入mongodb数据库
                 elif database == "mongodb":
-                    data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price, sale=sale)
+                    data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price,
+                                sale=sale)
                     collection.insert(data)
                 elif database == "excel":
                     if not PYTHON_3:
