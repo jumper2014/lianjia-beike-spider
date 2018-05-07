@@ -89,7 +89,7 @@ def get_area_zufang_info(city_name, area_name):
 
             # 继续清理数据
             price = price.text.strip()
-            xiaoqu = xiaoqu.text.replace("\n", "")
+            xiaoqu = xiaoqu.text.strip().replace("\n", "")
             layout = layout.text.strip()
             size = size.text.strip()
 
