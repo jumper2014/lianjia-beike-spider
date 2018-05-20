@@ -52,14 +52,19 @@ def collect_area_zufang(city_name, area_name):
                                                    size))
 
         # 写入mysql数据库
-        if database == "mysql":
-            db.query(
-                'INSERT INTO zufang ( update_date, district, area, xiaoqu, price, layout, size) '
-                'VALUES(:update_date, :district, :area, :xiaoqu, :price, :layout, :size)',
-                update_date=zufangItem.update_date, district=zufangItem.district,
-                area=zufangItem.area, layout=zufangItem.layout, xiaoqu=zufangItem.xiaoqu,
-                price=price,
-                size=size)
+        try:
+            if  mutex.acquire(1) and database == "mysql":
+                db.query(
+                    'INSERT INTO zufang ( update_date, district, area, xiaoqu, price, layout, size) '
+                    'VALUES(:update_date, :district, :area, :xiaoqu, :price, :layout, :size)',
+                    update_date=zufangItem.update_date, district=zufangItem.district,
+                    area=zufangItem.area, xiaoqu=zufangItem.xiaoqu,  price=price,
+                    layout=zufangItem.layout, size=size)
+
+                mutex.release()
+        except Exception as e:
+            print("excetion~~~~~~~~~~~", e)
+            mutex.release()
 
     print("Finish save to mysql,city={0},area={1}".format(city_name, area_name))
 
@@ -149,6 +154,7 @@ def get_area_zufang_info(city_name, area_name):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
+
     # 让用户选择爬取哪个城市的出租房价格数据
     prompt = create_prompt_text()
     # 判断Python版本
