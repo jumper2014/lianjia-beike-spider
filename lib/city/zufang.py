@@ -5,24 +5,29 @@
 
 import sys
 from lib.utility.version import PYTHON_3
-if not PYTHON_3:   # 如果小于Python3
+
+if not PYTHON_3:  # 如果小于Python3
     reload(sys)
     sys.setdefaultencoding("utf-8")
 
 
 class ZuFang(object):
-    def __init__(self, district, area, xiaoqu, layout, size, price):
+    def __init__(self, district, area, xiaoqu, layout, size, price, update_date, title, page_url):
         self.district = district
         self.area = area
         self.xiaoqu = xiaoqu
         self.layout = layout
         self.size = size
         self.price = price
+        self.update_date = update_date
+        self.title = title
+        self.page_url = page_url
 
     def text(self):
         return self.district + "," + \
-                self.area + "," + \
-                self.xiaoqu + "," + \
-                self.layout + "," + \
-                self.size + "," + \
-                self.price
+               self.area + "," + \
+               self.xiaoqu + "," + \
+               self.layout + "," + \
+               self.size + "," + \
+               self.price + "," + \
+               self.update_date
