@@ -33,33 +33,34 @@ def collect_area_zufang(city_name, area_name):
     # 开始获得需要的板块数据
     zufangs = get_area_zufang_info(city_name, area_name)
 
-    for zufangItem in zufangs:
+    for zufang_item in zufangs:
         # 锁定
         if mutex.acquire(1):
             total_num += len(zufangs)
             # 释放
             mutex.release()
 
-        price = str(zufangItem.price).replace(r'暂无', '0')
+        price = str(zufang_item.price).replace(r'暂无', '0')
         price = price.replace(r'元/m2', '')
         price = int(price)
 
-        size = zufangItem.size.replace(r'平米', '')
-        update_date = zufangItem.update_date
+        size = zufang_item.size.replace(r'平米', '')
+        update_date = zufang_item.update_date
 
-        print("{0} {1} {2} {3} {4} {5} {6}".format(update_date, district, zufangItem.area,
-                                                   zufangItem.xiaoqu, price, zufangItem.layout,
-                                                   size))
+        print("{0} {1} {2} {3} {4} {5} {6} {7} ".format(update_date, district, zufang_item.area,
+                                                        zufang_item.xiaoqu, price, zufang_item.layout,
+                                                        size, zufang_item.title))
 
         # 写入mysql数据库
         try:
-            if  mutex.acquire(1) and database == "mysql":
+            if mutex.acquire(1) and database == "mysql":
                 db.query(
-                    'INSERT INTO zufang ( update_date, district, area, xiaoqu, price, layout, size) '
-                    'VALUES(:update_date, :district, :area, :xiaoqu, :price, :layout, :size)',
-                    update_date=zufangItem.update_date, district=zufangItem.district,
-                    area=zufangItem.area, xiaoqu=zufangItem.xiaoqu,  price=price,
-                    layout=zufangItem.layout, size=size)
+                    'INSERT INTO zufang ( update_date, district, area, xiaoqu, price, layout, size,title,page_url) '
+                    'VALUES(:update_date, :district, :area, :xiaoqu, :price, :layout, :size,:title,:page_url)',
+                    update_date=zufang_item.update_date, district=zufang_item.district,
+                    area=zufang_item.area, xiaoqu=zufang_item.xiaoqu, price=price,
+                    layout=zufang_item.layout, size=size, title=zufang_item.title,
+                    page_url=zufang_item.page_url)
 
                 mutex.release()
         except Exception as e:
@@ -109,11 +110,19 @@ def get_area_zufang_info(city_name, area_name):
         ul_element = soup.find('ul', class_="house-lst")
         house_elements = ul_element.find_all('li')
         for house_elem in house_elements:
+
+            page_url = house_elem.find('h2').a.get('href')
+            if (page_url is None):
+                continue
+
             price = house_elem.find('span', class_="num")
             xiaoqu = house_elem.find('span', class_='region')
             layout = house_elem.find('span', class_="zone")
             size = house_elem.find('span', class_="meters")
-            updateDate = house_elem.find('div', class_="price-pre")
+            update_date = house_elem.find('div', class_="price-pre")
+
+            # 参考https://www.crummy.com/software/BeautifulSoup/bs4/doc/index.zh.html
+            title = house_elem.find('h2').a.get('title')
 
             # 继续清理数据
             if price is None:
@@ -136,16 +145,17 @@ def get_area_zufang_info(city_name, area_name):
             else:
                 size = size.text.strip()
 
-            if updateDate is None:
-                updateDate = '未知'
+            if update_date is None:
+                update_date = '未知'
             else:
-                updateDate = updateDate.text.strip().replace(".", "").replace(" ", "").replace("更新", "")
-
-            # print("{0} {1} {2} {3} {4} {5} {6}".format(
-            #     chinese_district, chinese_area, xiaoqu, layout, size, price))
+                update_date = update_date.text.strip().replace(".", "").replace(" ", "").replace(
+                    "更新",
+                    "")
 
             # 作为对象保存
-            zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price, updateDate)
+            zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price,
+                            update_date,
+                            title, page_url)
             zufang_list.append(zufang)
     return zufang_list
 
@@ -155,13 +165,19 @@ def get_area_zufang_info(city_name, area_name):
 # -------------------------------
 if __name__ == "__main__":
 
-    # 让用户选择爬取哪个城市的出租房价格数据
-    prompt = create_prompt_text()
-    # 判断Python版本
-    if not PYTHON_3:  # 如果小于Python3
-        city = raw_input(prompt)
+    # 默认城市
+    defaultCity = 'gz'
+
+    if defaultCity is None:
+        # 让用户选择爬取哪个城市的出租房价格数据
+        prompt = create_prompt_text()
+        # 判断Python版本
+        if not PYTHON_3:  # 如果小于Python3
+            city = raw_input(prompt)
+        else:
+            city = input(prompt)
     else:
-        city = input(prompt)
+        city = defaultCity
     print('OK, start to crawl ' + get_chinese_city(city))
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
@@ -175,6 +191,7 @@ if __name__ == "__main__":
     db = None
     if database == "mysql":
         import records
+
         db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8',
                               encoding='utf-8')
         # 清空数据库历史旧数据

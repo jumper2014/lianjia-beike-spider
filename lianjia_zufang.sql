@@ -34,6 +34,8 @@ CREATE TABLE `zufang` (
   `xiaoqu` varchar(100) DEFAULT NULL,  -- 小区
   `layout` varchar(100) DEFAULT NULL,   -- 布局
   `price` int(11) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `page_url` varchar(300) DEFAULT NULL,
   `size` int(11) DEFAULT NULL,       -- 平方米
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

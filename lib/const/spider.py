@@ -3,4 +3,4 @@
 # author: zengyuetian
 
 
-thread_pool_size = 50
+thread_pool_size = 1
