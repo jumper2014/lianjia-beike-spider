@@ -174,9 +174,10 @@ if __name__ == "__main__":
     db = None
     if database == "mysql":
         import records
-
         db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8',
                               encoding='utf-8')
+        # 清空数据库历史旧数据
+        db.query('delete from zufang')
     # TODO 加入mongodb的支持
 
     mutex = threading.Lock()  # 创建锁
