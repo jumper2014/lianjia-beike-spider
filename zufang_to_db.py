@@ -3,9 +3,10 @@
 # author: Zeng YueTian
 # 获得指定城市的出租房数据
 
-
+import pymysql
 import threadpool
 import threading
+
 from lib.utility.date import *
 from lib.city.area import *
 from lib.utility.path import *
@@ -15,8 +16,10 @@ from lib.city.zufang import *
 from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
 
+pymysql.install_as_MySQLdb()
 
-def collect_area_zufang(city_name, area_name, fmt="csv"):
+
+def collect_area_zufang(city_name, area_name):
     """
     对于每个板块,获得这个板块下所有出租房的信息
     并且将这些信息写入文件保存
@@ -27,19 +30,43 @@ def collect_area_zufang(city_name, area_name, fmt="csv"):
     """
     global total_num, today_path
 
-    csv_file = today_path + "/{0}.csv".format(area_name)
-    with open(csv_file, "w") as f:
-        # 开始获得需要的板块数据
-        zufangs = get_area_zufang_info(city_name, area_name)
+    # 开始获得需要的板块数据
+    zufangs = get_area_zufang_info(city_name, area_name)
+
+    # 清空数据库数据
+    if database == "mysql":
+        db.query('delete from zufang')
+
+
+    for zufangItem in zufangs:
         # 锁定
         if mutex.acquire(1):
             total_num += len(zufangs)
             # 释放
             mutex.release()
-        if fmt == "csv":
-            for zufang in zufangs:
-                f.write(date_string + "," + zufang.text()+"\n")
-    print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
+        price = str(zufangItem.price).replace(r'暂无', '0')
+        price = price.replace(r'元/m2', '')
+        price = int(price)
+
+        size = zufangItem.size.replace(r'平米', '')
+        update_date = zufangItem.update_date
+
+        print("{0} {1} {2} {3} {4} {5} {6}".format(update_date, district, zufangItem.area,
+                                                   zufangItem.xiaoqu, price, zufangItem.layout,
+                                                   size))
+
+        # 写入mysql数据库
+        if database == "mysql":
+            db.query(
+                'INSERT INTO zufang ( update_date, district, area, xiaoqu, price, layout, size) '
+                'VALUES(:update_date, :district, :area, :xiaoqu, :price, :layout, :size)',
+                update_date=zufangItem.update_date, district=zufangItem.district,
+                area=zufangItem.area, layout=zufangItem.layout, xiaoqu=zufangItem.xiaoqu,
+                price=price,
+                size=size)
+
+    print("Finish save to mysql,city={0},area={1}".format(city_name, area_name))
 
 
 def get_area_zufang_info(city_name, area_name):
@@ -67,7 +94,7 @@ def get_area_zufang_info(city_name, area_name):
         total_page = int(matches.group(1))
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(area_name))
-        print("\t" + e.message)
+        print("\t exception", e)
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
@@ -86,18 +113,39 @@ def get_area_zufang_info(city_name, area_name):
             xiaoqu = house_elem.find('span', class_='region')
             layout = house_elem.find('span', class_="zone")
             size = house_elem.find('span', class_="meters")
+            updateDate = house_elem.find('div', class_="price-pre")
 
             # 继续清理数据
-            price = price.text.strip()
-            xiaoqu = xiaoqu.text.strip().replace("\n", "")
-            layout = layout.text.strip()
-            size = size.text.strip()
+            if price is None:
+                price = -1
+            else:
+                price = price.text.strip()
+
+            if xiaoqu is None:
+                xiaoqu = '未知'
+            else:
+                xiaoqu = xiaoqu.text.strip().replace("\n", "")
+
+            if layout is None:
+                layout = '未知'
+            else:
+                layout = layout.text.strip()
+
+            if size is None:
+                size = '-1'
+            else:
+                size = size.text.strip()
+
+            if updateDate is None:
+                updateDate = '未知'
+            else:
+                updateDate = updateDate.text.strip().replace(".", "").replace(" ", "").replace("更新", "")
 
             # print("{0} {1} {2} {3} {4} {5} {6}".format(
             #     chinese_district, chinese_area, xiaoqu, layout, size, price))
 
             # 作为对象保存
-            zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price,'')
+            zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price, updateDate)
             zufang_list.append(zufang)
     return zufang_list
 
@@ -122,9 +170,18 @@ if __name__ == "__main__":
 
     # collect_area_zufang('sh', 'beicai')  # For debugging, keep it here
 
-    mutex = threading.Lock()    # 创建锁
-    total_num = 0               # 总的小区个数，用于统计
-    t1 = time.time()            # 开始计时
+    database = "mysql"
+    db = None
+    if database == "mysql":
+        import records
+
+        db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8',
+                              encoding='utf-8')
+    # TODO 加入mongodb的支持
+
+    mutex = threading.Lock()  # 创建锁
+    total_num = 0  # 总的小区个数，用于统计
+    t1 = time.time()  # 开始计时
 
     # 获得城市有多少区列表, district: 区县
     districts = get_districts(city)
@@ -156,7 +213,7 @@ if __name__ == "__main__":
     my_requests = threadpool.makeRequests(collect_area_zufang, args)
     [pool.putRequest(req) for req in my_requests]
     pool.wait()
-    pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出
+    pool.dismissWorkers(pool_size, do_join=True)  # 完成后退出
 
     # 计时结束，统计结果
     t2 = time.time()

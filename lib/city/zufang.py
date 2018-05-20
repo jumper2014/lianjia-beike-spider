@@ -11,13 +11,14 @@ if not PYTHON_3:   # 如果小于Python3
 
 
 class ZuFang(object):
-    def __init__(self, district, area, xiaoqu, layout, size, price):
+    def __init__(self, district, area, xiaoqu, layout, size, price, update_date):
         self.district = district
         self.area = area
         self.xiaoqu = xiaoqu
         self.layout = layout
         self.size = size
         self.price = price
+        self.update_date = update_date
 
     def text(self):
         return self.district + "," + \
@@ -25,4 +26,5 @@ class ZuFang(object):
                 self.xiaoqu + "," + \
                 self.layout + "," + \
                 self.size + "," + \
-                self.price
+                self.price + "," + \
+                self.update_date
