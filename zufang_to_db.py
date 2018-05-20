@@ -33,11 +33,6 @@ def collect_area_zufang(city_name, area_name):
     # 开始获得需要的板块数据
     zufangs = get_area_zufang_info(city_name, area_name)
 
-    # 清空数据库数据
-    if database == "mysql":
-        db.query('delete from zufang')
-
-
     for zufangItem in zufangs:
         # 锁定
         if mutex.acquire(1):
