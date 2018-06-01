@@ -50,12 +50,13 @@ def get_loupan_info(city_name):
     try:
         page_box = soup.find_all('div', class_='page-box')[0]
         matches = re.search('.*data-total-count="(\d+)".*', str(page_box))
-        total_page = math.ceil(int(matches.group(1)) / 10)
+        total_page = int(math.ceil(int(matches.group(1)) / 10))
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(city_name))
         print("\t" + e.message)
         total_page = 1
 
+    print(total_page)
     # 从第一页开始,一直遍历到最后一页
     headers = create_headers()
     for i in range(1, total_page + 1):
