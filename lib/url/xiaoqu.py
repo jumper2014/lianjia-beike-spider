@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from lib.url.url_helper import *
 from lib.city.xiaoqu import *
 from lib.city.district import *
+from lib.const.request_headers import *
 
 
 def get_xiaoqu_district_urls():
@@ -65,7 +66,8 @@ def get_xiaoqu_info(city, area):
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
     print(page)
 
-    response = requests.get(page, timeout=10)
+    headers = create_headers()
+    response = requests.get(page, timeout=10, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml")
 
@@ -94,8 +96,9 @@ def get_xiaoqu_info(city, area):
 
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
+        headers = create_headers()
         page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
-        response = requests.get(page, timeout=10)
+        response = requests.get(page, timeout=10, headers=headers)
         html = response.content
         soup = BeautifulSoup(html, "lxml")
 

@@ -41,8 +41,8 @@ def get_loupan_info(city_name):
     loupan_list = list()
     page = 'http://{0}.fang.lianjia.com/loupan/'.format(city_name)
     print(page)
-
-    response = requests.get(page, timeout=10)
+    headers = create_headers()
+    response = requests.get(page, timeout=10, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml")
 
@@ -57,10 +57,11 @@ def get_loupan_info(city_name):
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
+    headers = create_headers()
     for i in range(1, total_page + 1):
         page = 'http://{0}.fang.lianjia.com/loupan/pg{1}'.format(city_name, i)
         print(page)
-        response = requests.get(page, timeout=10)
+        response = requests.get(page, timeout=10, headers=headers)
         html = response.content
         soup = BeautifulSoup(html, "lxml")
 

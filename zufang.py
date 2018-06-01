@@ -56,7 +56,8 @@ def get_area_zufang_info(city_name, area_name):
     page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city_name, area_name)
     print(page)
 
-    response = requests.get(page, timeout=10)
+    headers = create_headers()
+    response = requests.get(page, timeout=10, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml")
 
@@ -71,10 +72,11 @@ def get_area_zufang_info(city_name, area_name):
         total_page = 1
 
     # 从第一页开始,一直遍历到最后一页
+    headers = create_headers()
     for num in range(1, total_page + 1):
         page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city_name, area_name, num)
         print(page)
-        response = requests.get(page, timeout=10)
+        response = requests.get(page, timeout=10, headers=headers)
         html = response.content
         soup = BeautifulSoup(html, "lxml")
 

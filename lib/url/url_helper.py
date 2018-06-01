@@ -5,11 +5,13 @@
 import requests
 from lxml import etree
 from lib.const.url import *
+from lib.const.request_headers import *
 
 
 def get_urls_from_xpath(page, xpath, relative=True):
     try:
-        response = requests.get(page)
+        headers = create_headers()
+        response = requests.get(page, headers=headers)
         html = response.content
         root = etree.HTML(html)
         links = root.xpath(xpath)

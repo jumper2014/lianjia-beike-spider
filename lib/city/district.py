@@ -7,6 +7,7 @@ import requests
 from lxml import etree
 from lib.city.city import cities
 from lib.const.xpath import *
+from lib.const.request_headers import *
 
 chinese_city_district_dict = dict()     # 城市代码和中文名映射
 chinese_area_dict = dict()              # 版块代码和中文名映射
@@ -29,7 +30,8 @@ def get_districts(city):
     :return: 英文区县名列表
     """
     url = 'https://{0}.lianjia.com/xiaoqu/'.format(city)
-    response = requests.get(url, timeout=10)
+    headers = create_headers()
+    response = requests.get(url, timeout=10, headers=headers)
     html = response.content
     root = etree.HTML(html)
     elements = root.xpath(CITY_DISTRICT_XPATH)

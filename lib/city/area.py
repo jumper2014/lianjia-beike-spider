@@ -5,6 +5,7 @@
 
 from lib.city.district import *
 from lib.const.xpath import *
+from lib.const.request_headers import *
 
 
 def get_district_url(city, district):
@@ -27,7 +28,8 @@ def get_areas(city, district):
     page = get_district_url(city, district)
     areas = list()
     try:
-        response = requests.get(page, timeout=10)
+        headers = create_headers()
+        response = requests.get(page, timeout=10, headers=headers)
         html = response.content
         root = etree.HTML(html)
         links = root.xpath(DISTRICT_AREA_XPATH)
