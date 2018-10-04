@@ -30,7 +30,7 @@ def collect_area_ershou(city_name, area_name, fmt="csv"):
     with open(csv_file, "w") as f:
         # 开始获得需要的板块数据
         ershous = get_area_ershou_info(city_name, area_name)
-        # 锁定
+        # 锁定，多线程读写
         if mutex.acquire(1):
             total_num += len(ershous)
             # 释放
@@ -50,18 +50,20 @@ def get_area_ershou_info(city_name, area_name):
     :return: 二手房数据列表
     """
     district_name = area_dict.get(area_name, "")
+    # 中文区县
     chinese_district = get_chinese_district(district_name)
+    # 中文版块
     chinese_area = chinese_area_dict.get(area_name, "")
 
     ershou_list = list()
     page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city_name, area_name)
-    print(page)
+    print(page)  # 打印版块页面地址
     headers = create_headers()
     response = requests.get(page, timeout=10, headers=headers)
     html = response.content
     soup = BeautifulSoup(html, "lxml")
 
-    # 获得总的页数
+    # 获得总的页数，通过查找总页码的元素信息
     try:
         page_box = soup.find_all('div', class_='page-box')[0]
         matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
@@ -74,7 +76,7 @@ def get_area_ershou_info(city_name, area_name):
     # 从第一页开始,一直遍历到最后一页
     for num in range(1, total_page + 1):
         page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city_name, area_name, num)
-        print(page)
+        print(page)     # 打印每一页的地址
         headers = create_headers()
         response = requests.get(page, timeout=10, headers=headers)
         html = response.content
