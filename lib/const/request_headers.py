@@ -28,6 +28,7 @@ USER_AGENTS = [
 def create_headers():
     headers = dict()
     headers["User-Agent"] = random.choice(USER_AGENTS)
+    headers["Referer"] = "http://www.lianjia.com"
     return headers
 
 
