@@ -6,7 +6,8 @@
 - 丰富的代码注释，帮助理解代码并且方便扩展功能。
 - 数据含义：城市-city, 区县-district, 板块-area, 小区-xiaoqu, 二手房-ershou, 租房-zufang， 新房-loupan。
 - 每个版块存储为一个csv文件，该文件可以作为原始数据进行进一步的处理和分析。
-- 支持图表展示
+- 支持图表展示。
+！[alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/xiaoqu_top.png)
 - 如果链家网页面结构有调整，欢迎反馈，我将尽力保持更新。
 - 此代码仅供学习与交流，请勿用于商业用途。
 
