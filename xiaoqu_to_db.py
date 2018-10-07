@@ -38,7 +38,8 @@ if __name__ == '__main__':
     # database = "mysql"
     # database = "mongodb"
     # database = "excel"
-    database = "json"
+    # database = "json"
+    database = "csv"
 
     db = None
     collection = None
@@ -56,12 +57,15 @@ if __name__ == '__main__':
         collection = db.xiaoqu  # 使用xiaoqu集合，没有则自动创建
     elif database == "excel":
         import xlsxwriter
-
         workbook = xlsxwriter.Workbook('xiaoqu.xlsx')
         worksheet = workbook.add_worksheet()
     elif database == "json":
         import json
         datas = list()
+    elif database == "csv":
+        csv_file = open("xiaoqu.csv", "w")
+        line = "{0};{1};{2};{3};{4};{5};{6}\n".format('city_ch', 'date', 'district', 'area', 'xiaoqu', 'price', 'sale')
+        csv_file.write(line)
 
 
     # 让用户选择爬取哪个城市的二手房小区价格数据
@@ -161,8 +165,13 @@ if __name__ == '__main__':
                     data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price,
                                 sale=sale)
                     datas.append(data)
+                elif database == "csv":
+                    line = "{0};{1};{2};{3};{4};{5};{6}\n".format(city_ch, date, district, area, xiaoqu, price, sale)
+                    csv_file.write(line)
     if database == "excel":
         workbook.close()
     elif database == "json":
         json.dump(datas, open('xiaoqu.json', 'w'), ensure_ascii=False,indent=2)
+    elif database == "csv":
+        csv_file.close()
     print("Total write {0} items to database.".format(count))
