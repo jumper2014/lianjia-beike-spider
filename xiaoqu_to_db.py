@@ -2,10 +2,12 @@
 # coding=utf-8
 # author: zengyuetian
 # 此代码仅供学习与交流，请勿用于商业用途。
-# read data from csv, write to mysql
+# read data from csv, write to database
+# database includes: mysql, mongodb, excel, json
 
 import os
 import pymysql
+
 
 from lib.utility.path import DATA_PATH
 from lib.city.city import *
@@ -35,7 +37,9 @@ if __name__ == '__main__':
     # mysql or mongodb or excel
     # database = "mysql"
     # database = "mongodb"
-    database = "excel"
+    # database = "excel"
+    database = "json"
+
     db = None
     collection = None
     workbook = None
@@ -55,6 +59,10 @@ if __name__ == '__main__':
 
         workbook = xlsxwriter.Workbook('xiaoqu.xlsx')
         worksheet = workbook.add_worksheet()
+    elif database == "json":
+        import json
+        datas = list()
+
 
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
@@ -149,6 +157,12 @@ if __name__ == '__main__':
                         worksheet.write_number(row, col + 5, price)
                         worksheet.write_number(row, col + 6, sale)
                     row += 1
+                elif database == "json":
+                    data = dict(city=city_ch, date=date, district=district, area=area, xiaoqu=xiaoqu, price=price,
+                                sale=sale)
+                    datas.append(data)
     if database == "excel":
         workbook.close()
+    elif database == "json":
+        json.dump(datas, open('xiaoqu.json', 'w'), ensure_ascii=False,indent=2)
     print("Total write {0} items to database.".format(count))
