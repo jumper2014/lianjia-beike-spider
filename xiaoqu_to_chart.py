@@ -24,6 +24,16 @@ if __name__ == '__main__':
 
     # 注意，已经将分割符号转换成分号，因为有的小区名中有逗号
     df = pd.read_csv("xiaoqu.csv", encoding="utf-8", sep=";")
+
+    # 打印总行数
+    print("row number is {0}".format(len(df.index)))
+
+    # 过滤房价为0的无效数据
+    df = df[df.price > 0]
+    # # 去除重复行
+    # df = df.drop_duplicates()
+    print("row number is {0}".format(len(df.index)))
+
     df.sort_values("price", ascending=False, inplace=True)
     num = 3
     print(df.head(num))
@@ -34,7 +44,16 @@ if __name__ == '__main__':
     bar.add("小区均价前{0}名".format(num), xqs, prices, is_stack=True, is_label_show=True)
     bar.render(path="xiaoqu.html")
 
+    district_df = df.groupby('district').mean()
+    print(district_df)
+    districts = district_df.index
+    prices = district_df["price"]
+    bar = Bar("{0}区县均价".format(city))
+    bar.add("区县均价排名", districts, prices, is_stack=True, is_label_show=True)
+    bar.render(path="district.html")
+
     web.open("http://localhost:8080/xiaoqu.html", new=0, autoraise=True)
+    web.open("http://localhost:8080/district.html", new=0, autoraise=True)
     # 确保页面打开
     time.sleep(15)
 
