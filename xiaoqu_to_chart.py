@@ -34,6 +34,9 @@ if __name__ == '__main__':
     # df = df.drop_duplicates()
     print("row number is {0}".format(len(df.index)))
 
+    ####################################################
+    # 最贵的小区排名
+    ####################################################
     df.sort_values("price", ascending=False, inplace=True)
     num = 3
     print(df.head(num))
@@ -44,7 +47,12 @@ if __name__ == '__main__':
     bar.add("小区均价前{0}名".format(num), xqs, prices, is_stack=True, is_label_show=True)
     bar.render(path="xiaoqu.html")
 
+    ####################################################
+    # 区县均价排名
+    ####################################################
     district_df = df.groupby('district').mean()
+    district_df = district_df.round(0)
+    district_df.sort_values("price", ascending=False, inplace=True)
     print(district_df)
     districts = district_df.index
     prices = district_df["price"]

@@ -10,3 +10,4 @@ numpy
 pandas
 pyecharts
 pyecharts-snapshot
+webbrowser

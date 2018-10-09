@@ -8,6 +8,7 @@
 - 每个版块存储为一个csv文件，该文件可以作为原始数据进行进一步的处理和分析。
 - 支持图表展示。
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/xiaoqu_top.png)
+![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/district_top.png)
 - 如果链家网页面结构有调整，欢迎反馈，我将尽力保持更新。
 - 此代码仅供学习与交流，请勿用于商业用途。
 
@@ -85,6 +86,7 @@ Total cost 29.757128953933716 second
 
 
 ### 更新记录
+- 2018/10/09 图表展示区县均价排名。
 - 2018/10/07 小区房价导出到json文件, csv文件。图表展示最贵的小区。
 - 2018/10/05 增加Referer。增加透明代理服务器获取(未使用)
 - 2018/06/01 支持User-Agent
