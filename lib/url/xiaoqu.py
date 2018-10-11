@@ -9,7 +9,7 @@ from lib.url.url_helper import *
 from lib.city.xiaoqu import *
 from lib.city.district import *
 from lib.const.request_headers import *
-
+from lib.utility.log import logger
 
 def get_xiaoqu_district_urls():
     """
@@ -65,6 +65,7 @@ def get_xiaoqu_info(city, area):
     xiaoqu_list = list()
     page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
     print(page)
+    logger.info(page)
 
     headers = create_headers()
     response = requests.get(page, timeout=10, headers=headers)
@@ -78,7 +79,7 @@ def get_xiaoqu_info(city, area):
         total_page = int(matches.group(1))
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(area))
-        print("\t" + e.message)
+        print(e)
         total_page = 1
 
     # print("total page %d" % total_page)

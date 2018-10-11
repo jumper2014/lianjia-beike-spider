@@ -53,6 +53,7 @@ def create_date_path(site, city, date):
 ROOT_PATH = get_root_path()
 DATA_PATH = ROOT_PATH + "/data"
 SAMPLE_PATH = ROOT_PATH + "/sample"
+LOG_PATH = ROOT_PATH + "/log"
 
 if __name__ == "__main__":
     create_date_path("lianjia", "sh", "20160912")

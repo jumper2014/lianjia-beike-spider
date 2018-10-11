@@ -16,6 +16,8 @@ from lib.url.xiaoqu import *
 from lib.city.city import *
 from lib.utility.version import PYTHON_3
 from lib.const.spider import thread_pool_size
+from lib.utility.log import logger
+
 
 
 def collect_xiaoqu_data(city_name, area_name, fmt="csv"):
@@ -43,6 +45,7 @@ def collect_xiaoqu_data(city_name, area_name, fmt="csv"):
                 # print(date_string + "," + xiaoqu.text())
                 f.write(date_string + "," + xiaoqu.text()+"\n")
     print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+    logger.info("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
 
 # -------------------------------
@@ -57,7 +60,10 @@ if __name__ == "__main__":
     else:
         city = input(prompt)
 
-    print('OK, start to crawl ' + get_chinese_city(city))
+    message = 'OK, start to crawl ' + get_chinese_city(city)
+    print(message)
+    logger.info(message)
+
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
