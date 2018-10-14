@@ -4,7 +4,7 @@
 # 此代码仅供学习与交流，请勿用于商业用途。
 # 获得指定城市的二手房数据
 
-import BeautifulSoup as BeautifulSoup
+from bs4 import BeautifulSoup
 import threadpool
 import threading
 from lib.utility.date import *
@@ -106,14 +106,31 @@ def get_area_ershou_info(city_name, area_name):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    # 让用户选择爬取哪个城市的二手房小区价格数据
-    prompt = create_prompt_text()
-    # 判断Python版本
-    if not PYTHON_3:  # 如果小于Python3
-        city = raw_input(prompt)
+    # 允许用户通过命令直接指定
+    if len(sys.argv) < 2:
+        print("Wait for your choice.")
+        # 让用户选择爬取哪个城市的二手房小区价格数据
+        prompt = create_prompt_text()
+        # 判断Python版本
+        if not PYTHON_3:  # 如果小于Python3
+            city = raw_input(prompt)
+        else:
+            city = input(prompt)
+    elif len(sys.argv) == 2:
+        city = str(sys.argv[1])
+        print("City is: {0}".format(city))
     else:
-        city = input(prompt)
-    print('OK, start to crawl ' + get_chinese_city(city))
+        print("At most accept one parameter.")
+        exit(1)
+
+    chinese_city = get_chinese_city(city)
+    if chinese_city is not None:
+        message = 'OK, start to crawl ' + get_chinese_city(city)
+        print(message)
+        logger.info(message)
+    else:
+        print("No such city, please check your input.")
+        exit(1)
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
