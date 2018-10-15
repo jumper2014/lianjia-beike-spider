@@ -34,6 +34,10 @@ cities = {
 }
 
 
+lianjia_cities = cities
+beike_cities = dict()
+
+
 def create_prompt_text():
     """
     根据已有城市中英文对照表拼接选择提示信息

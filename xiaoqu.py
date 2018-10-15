@@ -14,12 +14,11 @@ from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
-from lib.const.spider import thread_pool_size
+from lib.const.spider import *
 from lib.utility.log import logger
 
 
-
-def collect_xiaoqu_data(city_name, area_name, fmt="csv"):
+def collect_area_xiaoqu_data(city_name, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有小区的信息
     并且将这些信息写入文件保存
@@ -51,7 +50,9 @@ def collect_xiaoqu_data(city_name, area_name, fmt="csv"):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    city = get_city()
+    spider = Spider("lianjia")
+    city = spider.get_city()
+    # city = get_city()
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     # 针对每个板块写一个文件,启动一个线程来操作
     pool_size = thread_pool_size
     pool = threadpool.ThreadPool(pool_size)
-    my_requests = threadpool.makeRequests(collect_xiaoqu_data, args)
+    my_requests = threadpool.makeRequests(collect_area_xiaoqu_data, args)
     [pool.putRequest(req) for req in my_requests]
     pool.wait()
     pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出
