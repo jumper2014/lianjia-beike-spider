@@ -14,6 +14,7 @@ from lib.url.xiaoqu import *
 from lib.city.city import *
 from lib.city.ershou import *
 from lib.utility.version import PYTHON_3
+from lib.const.spider import *
 from lib.const.spider import thread_pool_size
 
 
@@ -106,7 +107,8 @@ def get_area_ershou_info(city_name, area_name):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    city = get_city()
+    spider = Spider(SPIDER_NAME)
+    city = spider.get_city()
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()

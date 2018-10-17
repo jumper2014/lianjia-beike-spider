@@ -50,9 +50,8 @@ def collect_area_xiaoqu_data(city_name, area_name, fmt="csv"):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    spider = Spider("lianjia")
+    spider = Spider(SPIDER_NAME)
     city = spider.get_city()
-    # city = get_city()
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()

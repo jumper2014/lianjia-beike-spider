@@ -8,14 +8,16 @@ from lib.utility.version import PYTHON_3
 from lib.utility.log import *
 
 thread_pool_size = 50
-
+LIANJIA_SPIDER = "lianjia"
+BEIKE_SPIDER = "beike"
+SPIDER_NAME = LIANJIA_SPIDER
 
 class Spider(object):
     def __init__(self, name):
         self.name = name
-        if self.name == "lianjia":
+        if self.name == LIANJIA_SPIDER:
             self.cities = lianjia_cities
-        elif self.name == "beike":
+        elif self.name == BEIKE_SPIDER:
             self.cities = beike_cities
         else:
             self.cities = None

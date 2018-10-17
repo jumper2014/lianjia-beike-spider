@@ -11,6 +11,7 @@ from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
 from lib.city.loupan import *
+from lib.const.spider import *
 from lib.utility.version import PYTHON_3
 
 
@@ -101,7 +102,8 @@ def get_loupan_info(city_name):
 # main函数从这里开始
 # -------------------------------
 if __name__ == "__main__":
-    city = get_city()
+    spider = Spider(SPIDER_NAME)
+    city = spider.get_city()
 
     total_num = 0
 
