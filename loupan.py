@@ -110,7 +110,7 @@ if __name__ == "__main__":
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("loupan", city, date_string)
+    today_path = create_date_path("{0}/loupan".format(SPIDER_NAME), city, date_string)
 
     t1 = time.time()  # 开始计时
     collect_city_loupan(city)
