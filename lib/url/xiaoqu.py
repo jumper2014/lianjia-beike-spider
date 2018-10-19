@@ -10,6 +10,7 @@ from lib.city.xiaoqu import *
 from lib.city.district import *
 from lib.const.request_headers import *
 from lib.utility.log import logger
+from lib.const.spider import SPIDER_NAME
 
 def get_xiaoqu_district_urls():
     """
@@ -63,7 +64,7 @@ def get_xiaoqu_info(city, area):
     chinese_district = get_chinese_district(district)
     chinese_area = chinese_area_dict.get(area, "")
     xiaoqu_list = list()
-    page = 'http://{0}.lianjia.com/xiaoqu/{1}/'.format(city, area)
+    page = 'http://{0}.{1}.com/xiaoqu/{2}/'.format(city, SPIDER_NAME, area)
     print(page)
     logger.info(page)
 
@@ -98,7 +99,7 @@ def get_xiaoqu_info(city, area):
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
         headers = create_headers()
-        page = 'http://{0}.lianjia.com/xiaoqu/{1}/pg{2}'.format(city, area, i)
+        page = 'http://{0}.{1}.com/xiaoqu/{2}/pg{3}'.format(city, SPIDER_NAME, area, i)
         response = requests.get(page, timeout=10, headers=headers)
         html = response.content
         soup = BeautifulSoup(html, "lxml")

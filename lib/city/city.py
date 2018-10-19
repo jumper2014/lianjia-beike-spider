@@ -35,7 +35,7 @@ cities = {
 
 
 lianjia_cities = cities
-beike_cities = dict()
+beike_cities = cities
 
 
 def create_prompt_text():
