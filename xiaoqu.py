@@ -56,7 +56,7 @@ if __name__ == "__main__":
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date_string = get_date_string()
     print('Today date is: %s' % date_string)
-    today_path = create_date_path("xiaoqu", city, date_string)
+    today_path = create_date_path("{0}/xiaoqu".format(SPIDER_NAME), city, date_string)
 
     mutex = threading.Lock()    # 创建锁
     total_num = 0               # 总的小区个数，用于统计
