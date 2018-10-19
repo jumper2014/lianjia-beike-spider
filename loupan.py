@@ -41,7 +41,7 @@ def get_loupan_info(city_name):
     :return: 新房楼盘信息列表
     """
     loupan_list = list()
-    page = 'http://{0}.fang.lianjia.com/loupan/'.format(city_name)
+    page = 'http://{0}.fang.{1}.com/loupan/'.format(city_name, SPIDER_NAME)
     print(page)
     headers = create_headers()
     response = requests.get(page, timeout=10, headers=headers)
@@ -62,7 +62,7 @@ def get_loupan_info(city_name):
     # 从第一页开始,一直遍历到最后一页
     headers = create_headers()
     for i in range(1, total_page + 1):
-        page = 'http://{0}.fang.lianjia.com/loupan/pg{1}'.format(city_name, i)
+        page = 'http://{0}.fang.{1}.com/loupan/pg{2}'.format(city_name, SPIDER_NAME, i)
         print(page)
         response = requests.get(page, timeout=10, headers=headers)
         html = response.content

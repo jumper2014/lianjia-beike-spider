@@ -25,7 +25,7 @@ def get_area_zufang_info(city_name, area_name):
     chinese_district = get_chinese_district(district_name)
     chinese_area = chinese_area_dict.get(area_name, "")
     zufang_list = list()
-    page = 'http://{0}.lianjia.com/zufang/{1}/'.format(city_name, area_name)
+    page = 'http://{0}.{1}.com/zufang/{2}/'.format(city_name, SPIDER_NAME, area_name)
     print(page)
 
     headers = create_headers()
@@ -35,8 +35,12 @@ def get_area_zufang_info(city_name, area_name):
 
     # 获得总的页数
     try:
-        page_box = soup.find_all('div', class_='page-box')[0]
-        matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
+        if SPIDER_NAME == "lianjia":
+            page_box = soup.find_all('div', class_='page-box')[0]
+            matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
+        elif SPIDER_NAME == "ke":
+            page_box = soup.find_all('div', class_='content__pg')[0]
+            matches = re.search('.*"totalpage":(\d+),.*', str(page_box))
         total_page = int(matches.group(1))
     except Exception as e:
         print("\tWarning: only find one page for {0}".format(area_name))
@@ -46,7 +50,7 @@ def get_area_zufang_info(city_name, area_name):
     # 从第一页开始,一直遍历到最后一页
     headers = create_headers()
     for num in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/zufang/{1}/pg{2}'.format(city_name, area_name, num)
+        page = 'http://{0}.{1}.com/zufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
         print(page)
         response = requests.get(page, timeout=10, headers=headers)
         html = response.content

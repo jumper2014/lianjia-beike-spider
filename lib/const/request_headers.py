@@ -4,6 +4,7 @@
 # USER AGENTS 可以自己添加
 
 import random
+from lib.const.spider import SPIDER_NAME
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -28,7 +29,7 @@ USER_AGENTS = [
 def create_headers():
     headers = dict()
     headers["User-Agent"] = random.choice(USER_AGENTS)
-    headers["Referer"] = "http://www.lianjia.com"
+    headers["Referer"] = "http://www.{0}.com".format(SPIDER_NAME)
     return headers
 
 

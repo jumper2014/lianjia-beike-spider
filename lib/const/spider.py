@@ -10,8 +10,9 @@ from lib.utility.log import *
 thread_pool_size = 50
 LIANJIA_SPIDER = "lianjia"
 BEIKE_SPIDER = "ke"
-# SPIDER_NAME = LIANJIA_SPIDER
-SPIDER_NAME = BEIKE_SPIDER
+SPIDER_NAME = LIANJIA_SPIDER
+# SPIDER_NAME = BEIKE_SPIDER
+
 
 class Spider(object):
     def __init__(self, name):

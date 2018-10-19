@@ -59,7 +59,7 @@ def get_area_ershou_info(city_name, area_name):
     chinese_area = chinese_area_dict.get(area_name, "")
 
     ershou_list = list()
-    page = 'http://{0}.lianjia.com/ershoufang/{1}/'.format(city_name, area_name)
+    page = 'http://{0}.{1}.com/ershoufang/{2}/'.format(city_name, SPIDER_NAME, area_name)
     print(page)  # 打印版块页面地址
     headers = create_headers()
     response = requests.get(page, timeout=10, headers=headers)
@@ -78,7 +78,7 @@ def get_area_ershou_info(city_name, area_name):
 
     # 从第一页开始,一直遍历到最后一页
     for num in range(1, total_page + 1):
-        page = 'http://{0}.lianjia.com/ershoufang/{1}/pg{2}'.format(city_name, area_name, num)
+        page = 'http://{0}.{1}.com/ershoufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
         print(page)     # 打印每一页的地址
         headers = create_headers()
         response = requests.get(page, timeout=10, headers=headers)
