@@ -10,8 +10,8 @@ from lib.utility.log import *
 thread_pool_size = 50
 LIANJIA_SPIDER = "lianjia"
 BEIKE_SPIDER = "ke"
-# SPIDER_NAME = LIANJIA_SPIDER
-SPIDER_NAME = BEIKE_SPIDER
+SPIDER_NAME = LIANJIA_SPIDER
+# SPIDER_NAME = BEIKE_SPIDER
 
 
 class Spider(object):
@@ -23,6 +23,7 @@ class Spider(object):
             self.cities = beike_cities
         else:
             self.cities = None
+        print("Target site is {0}.com".format(SPIDER_NAME))
 
     def create_prompt_text(self):
         """

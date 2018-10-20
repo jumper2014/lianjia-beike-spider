@@ -67,7 +67,6 @@ def get_chinese_city(en):
 
 
 def get_city():
-
     # 允许用户通过命令直接指定
     if len(sys.argv) < 2:
         print("Wait for your choice.")
