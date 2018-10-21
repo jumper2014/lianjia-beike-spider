@@ -25,7 +25,7 @@
 - MongoDB数据内容: { "_id" : ObjectId("5ac0309332e3885598b3b751"), "city" : "上海", "district" : "黄浦", "area" : "五里桥", "date" : "20180331", "price" : 81805, "sale" : 11, "xiaoqu" : "桥一小区" }
 - Excel数据内容：上海 20180331 徐汇 衡山路 永嘉路621号 333333 0
 - 运行, python xiaoqu.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
-- 运行, python xiaoqu.py <city>, 自动开始采集数据到csv文件
+- 运行, python xiaoqu.py city, 自动开始采集数据到csv文件
 ```
 hz: 杭州, sz: 深圳, dl: 大连, fs: 佛山
 xm: 厦门, dg: 东莞, gz: 广州, bj: 北京
@@ -42,20 +42,20 @@ nj: 南京,
 - 获取链家网挂牌二手房价数据，数据格式如下：
 - 20180405,浦东,万祥镇,祥安菊苑 3室2厅 258万,258万,祥安菊苑  | 3室2厅 | 126.58平米 | 南 | 毛坯
 - 运行，python ershou.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
-- 运行，python ershou.py <city>，自动开始采集数据到csv文件
+- 运行，python ershou.py city，自动开始采集数据到csv文件
 
 
 ## 出租房数据爬取
 - 获取链家网挂牌出租房数据，数据格式如下：
 - 20180407,浦东,御桥,仁和都市花园  ,3室2厅,100平米,8000
 - 运行，python zufang.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
-- 运行，python zufang.py <city>，自动开始采集数据到csv文件
+- 运行，python zufang.py city，自动开始采集数据到csv文件
 
 ## 新房数据爬取
 - 获取链家网新房数据，数据格式如下：
 - 20180407,上海星河湾,76000,1672万
 - 运行，python loupan.py 根据提示输入城市代码，回车确认，开始采集数据到csv文件
-- 运行，python loupan.py <city>，自动开始采集数据到csv文件
+- 运行，python loupan.py city，自动开始采集数据到csv文件
 
 ## 结果存储
 - 根目录下建立data目录存放结果数据文件
