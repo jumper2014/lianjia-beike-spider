@@ -13,6 +13,7 @@
 - pip install -r requirements.txt
 - 运行前，请将当前目录加入到系统环境变量PYTHONPATH中。
 - 运行前，请指定要爬取的网站，见lib/const/spider.py里面的SPIDER_NAME变量。
+- 清理数据，运行 python tool/clean.py
 
 
 ## 小区房价数据爬取
@@ -59,10 +60,10 @@ nj: 南京,
 
 ## 结果存储
 - 根目录下建立data目录存放结果数据文件
-- 小区房价数据存储目录为 data/xiaoqu/city/date
-- 二手房房价数据存储目录为 data/ershou/city/date
-- 出租房房价数据存储目录为 data/zufang/city/date
-- 新房房价数据存储目录为 data/loupan/city/date
+- 小区房价数据存储目录为 data/site/xiaoqu/city/date
+- 二手房房价数据存储目录为 data/site/ershou/city/date
+- 出租房房价数据存储目录为 data/site/zufang/city/date
+- 新房房价数据存储目录为 data/site/loupan/city/date
 
 ## 性能
 - 300秒爬取上海市207个版块的2.7万条小区数据，平均每秒90条数据。

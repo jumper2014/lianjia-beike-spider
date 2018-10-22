@@ -18,7 +18,7 @@ from lib.const.spider import *
 from lib.const.spider import thread_pool_size
 
 
-def collect_area_ershou(city_name, area_name, fmt="csv"):
+def collect_area_ershou_data(city_name, area_name, fmt="csv"):
     """
     对于每个板块,获得这个板块下所有二手房的信息
     并且将这些信息写入文件保存
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     # 针对每个板块写一个文件,启动一个线程来操作
     pool_size = thread_pool_size
     pool = threadpool.ThreadPool(pool_size)
-    my_requests = threadpool.makeRequests(collect_area_ershou, args)
+    my_requests = threadpool.makeRequests(collect_area_ershou_data, args)
     [pool.putRequest(req) for req in my_requests]
     pool.wait()
     pool.dismissWorkers(pool_size, do_join=True)        # 完成后退出

@@ -12,52 +12,6 @@ from lib.const.request_headers import *
 from lib.utility.log import logger
 from lib.const.spider import SPIDER_NAME
 
-def get_xiaoqu_district_urls():
-    """
-    获取小区栏目下面的各区导航链接
-    :return:
-    """
-    urls = get_urls_from_xpath(SH_XIAOQU_BASE_URL, XIAOQU_QU_XPATH)
-    print(urls)
-    return urls
-
-
-def get_xiaoqu_district_url():
-    """
-    获取小区栏目下面的各区导航链接
-    :return:
-    """
-    urls = get_urls_from_xpath(SH_XIAOQU_BASE_URL, XIAOQU_QU_XPATH)
-    print(urls)
-    return urls
-
-
-def get_xiaoqu_area_urls():
-    """
-    获取小区栏目下面的各区下级板块导航链接
-    :return:
-    """
-    urls = []
-    for link in get_xiaoqu_district_urls():
-        for sub_link in get_urls_from_xpath(link, XIAOQU_BANKUAI_XPATH):
-            if sub_link not in urls:
-                urls.append(sub_link)
-    return urls
-
-
-def get_xiaoqu_area():
-    """
-    获取小区栏目下面的各区下级板块导航链接
-    :return:
-    """
-    areas = []
-    for link in get_xiaoqu_district_urls():
-        for sub_link in get_urls_from_xpath(link, XIAOQU_BANKUAI_XPATH):
-            area = sub_link.split("/")[-1]
-            if area not in areas:
-                areas.append(area)
-    return areas
-
 
 def get_xiaoqu_info(city, area):
     district = area_dict.get(area, "")
