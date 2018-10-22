@@ -3,7 +3,7 @@
 # author: zengyuetian
 # 板块信息相关函数
 
-from lib.city.district import *
+from lib.zone.district import *
 from lib.const.xpath import *
 from lib.request.headers import *
 from lib.const.spider import SPIDER_NAME

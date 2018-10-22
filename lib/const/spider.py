@@ -2,7 +2,7 @@
 # coding=utf-8
 # author: zengyuetian
 
-from lib.city.city import lianjia_cities, beike_cities
+from lib.zone.city import lianjia_cities, beike_cities
 import sys
 from lib.utility.version import PYTHON_3
 from lib.utility.log import *

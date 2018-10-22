@@ -5,7 +5,7 @@
 
 import requests
 from lxml import etree
-from lib.city.city import cities
+from lib.zone.city import cities
 from lib.const.xpath import *
 from lib.request.headers import *
 from lib.const.spider import SPIDER_NAME

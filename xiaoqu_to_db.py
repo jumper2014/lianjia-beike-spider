@@ -10,7 +10,7 @@ import pymysql
 
 
 from lib.utility.path import DATA_PATH
-from lib.city.city import *
+from lib.zone.city import *
 from lib.utility.date import *
 from lib.utility.version import PYTHON_3
 from lib.const.spider import SPIDER_NAME

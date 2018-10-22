@@ -10,10 +10,10 @@
 import threadpool
 import threading
 from lib.utility.date import *
-from lib.city.area import *
+from lib.zone.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
-from lib.city.city import *
+from lib.zone.city import *
 from lib.const.spider import *
 from lib.utility.log import logger
 
