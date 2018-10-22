@@ -4,8 +4,7 @@
 
 from bs4 import BeautifulSoup
 import requests
-import random
-from lib.const.request_headers import create_headers
+from lib.request.headers import create_headers
 
 proxys_src = []
 proxys = []
@@ -29,8 +28,8 @@ def spider_proxyip(num=10):
             if x >= num:
                 break
     except Exception as e:
-        print ("spider_proxyip exception:")
-        print (e)
+        print("spider_proxyip exception:")
+        print(e)
 
 
 if __name__ == '__main__':

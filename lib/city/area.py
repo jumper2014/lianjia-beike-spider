@@ -5,7 +5,7 @@
 
 from lib.city.district import *
 from lib.const.xpath import *
-from lib.const.request_headers import *
+from lib.request.headers import *
 from lib.const.spider import SPIDER_NAME
 
 

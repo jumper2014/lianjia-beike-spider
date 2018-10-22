@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from lib.url.url_helper import *
 from lib.item.xiaoqu import *
 from lib.city.district import *
-from lib.const.request_headers import *
+from lib.request.headers import *
 from lib.utility.log import logger
 from lib.const.spider import SPIDER_NAME
 

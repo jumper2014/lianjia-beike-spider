@@ -5,7 +5,7 @@
 import requests
 from lxml import etree
 from lib.const.url import *
-from lib.const.request_headers import *
+from lib.request.headers import *
 
 
 def get_urls_from_xpath(page, xpath, relative=True):

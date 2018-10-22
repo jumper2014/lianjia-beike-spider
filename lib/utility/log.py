@@ -4,6 +4,7 @@
 
 import logging
 from lib.utility.path import LOG_PATH
+
 logger = logging.getLogger(__name__)
 logger.setLevel(level=logging.INFO)
 handler = logging.FileHandler(LOG_PATH + "/log.txt")
