@@ -2,17 +2,9 @@
 # coding=utf-8
 # author: zengyuetian
 
-import requests
-import threadpool
-import threading
-from lib.utility.date import *
-from lib.zone.area import *
-from lib.utility.path import *
-from lib.url.xiaoqu import *
-from lib.zone.city import *
+from lib.spider.xiaoqu import *
 from lib.item.zufang import *
-from lib.utility.version import PYTHON_3
-from lib.const.spider import *
+from lib.spider.spider import *
 
 
 def get_area_zufang_info(city_name, area_name):

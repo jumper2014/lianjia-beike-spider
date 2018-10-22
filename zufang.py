@@ -10,12 +10,7 @@ import threading
 from lib.utility.date import *
 from lib.zone.area import *
 from lib.utility.path import *
-from lib.url.xiaoqu import *
-from lib.zone.city import *
-from lib.item.zufang import *
-from lib.utility.version import PYTHON_3
-from lib.const.spider import *
-from lib.url.zufang import *
+from lib.spider.zufang import *
 
 
 def collect_area_zufang_data(city_name, area_name, fmt="csv"):

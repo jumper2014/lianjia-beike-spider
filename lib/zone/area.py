@@ -6,7 +6,7 @@
 from lib.zone.district import *
 from lib.const.xpath import *
 from lib.request.headers import *
-from lib.const.spider import SPIDER_NAME
+from lib.spider.spider import SPIDER_NAME
 
 
 def get_district_url(city, district):

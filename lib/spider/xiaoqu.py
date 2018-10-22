@@ -8,7 +8,7 @@ from lib.item.xiaoqu import *
 from lib.zone.district import *
 from lib.request.headers import *
 from lib.utility.log import logger
-from lib.const.spider import SPIDER_NAME
+from lib.spider.spider import SPIDER_NAME
 
 
 def get_xiaoqu_info(city, area):

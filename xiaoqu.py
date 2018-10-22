@@ -12,9 +12,8 @@ import threading
 from lib.utility.date import *
 from lib.zone.area import *
 from lib.utility.path import *
-from lib.url.xiaoqu import *
-from lib.zone.city import *
-from lib.const.spider import *
+from lib.spider.xiaoqu import *
+from lib.spider.spider import *
 from lib.utility.log import logger
 
 

@@ -8,7 +8,7 @@ from lxml import etree
 from lib.zone.city import cities
 from lib.const.xpath import *
 from lib.request.headers import *
-from lib.const.spider import SPIDER_NAME
+from lib.spider.spider import SPIDER_NAME
 
 chinese_city_district_dict = dict()     # 城市代码和中文名映射
 chinese_area_dict = dict()              # 版块代码和中文名映射

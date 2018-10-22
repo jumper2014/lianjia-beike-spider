@@ -4,18 +4,15 @@
 # 此代码仅供学习与交流，请勿用于商业用途。
 # 获得指定城市的二手房数据
 
-from bs4 import BeautifulSoup
 import threadpool
 import threading
 from lib.utility.date import *
 from lib.zone.area import *
 from lib.utility.path import *
-from lib.url.xiaoqu import *
-from lib.zone.city import *
+from lib.spider.xiaoqu import *
 from lib.item.ershou import *
-from lib.utility.version import PYTHON_3
-from lib.const.spider import *
-from lib.const.spider import thread_pool_size
+from lib.spider.spider import *
+from lib.spider.spider import thread_pool_size
 
 
 def collect_area_ershou_data(city_name, area_name, fmt="csv"):
