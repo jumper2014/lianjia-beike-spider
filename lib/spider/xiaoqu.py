@@ -35,19 +35,6 @@ def get_xiaoqu_info(city, area):
         print(e)
         total_page = 1
 
-    # print("total page %d" % total_page)
-    # last_page = soup.find('a', gahref="results_totalpage")
-    # if last_page is not None:  # 如果找到了标示最后一页的链接
-    #     total_page = int(last_page.text)
-    # else:   # 没有标示最后一页的链接,那么总页数不超过10,从大到小倒序找到最后一页
-    #     href_list = ["results_d{0}".format(i) for i in range(10+1)[1:]]
-    #     href_list.reverse()
-    #     for href in href_list:
-    #         last_page = soup.find('a', gahref=href)
-    #         if last_page is not None:
-    #             total_page = int(last_page.text)
-    #             break
-
     # 从第一页开始,一直遍历到最后一页
     for i in range(1, total_page + 1):
         headers = create_headers()
