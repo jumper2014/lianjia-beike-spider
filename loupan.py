@@ -10,7 +10,7 @@ from lib.utility.date import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
-from lib.city.loupan import *
+from lib.item.loupan import *
 from lib.const.spider import *
 from lib.utility.version import PYTHON_3
 

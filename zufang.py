@@ -12,7 +12,7 @@ from lib.city.area import *
 from lib.utility.path import *
 from lib.url.xiaoqu import *
 from lib.city.city import *
-from lib.city.zufang import *
+from lib.item.zufang import *
 from lib.utility.version import PYTHON_3
 from lib.const.spider import *
 from lib.url.zufang import *

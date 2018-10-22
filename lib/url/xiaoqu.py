@@ -6,7 +6,7 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from lib.url.url_helper import *
-from lib.city.xiaoqu import *
+from lib.item.xiaoqu import *
 from lib.city.district import *
 from lib.const.request_headers import *
 from lib.utility.log import logger
