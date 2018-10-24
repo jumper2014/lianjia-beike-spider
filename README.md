@@ -7,7 +7,7 @@
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/xiaoqu_top.png)
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/district_top.png)
 - 如果链家和贝壳页面结构有调整，欢迎反馈，我将尽力保持更新。
-- 此代码仅供学习与交流，请勿用于商业用途。
+- 此代码仅供学习与交流，请勿用于商业用途。问题反馈QQ群号635276285。
 
 ## 安装依赖
 - pip install -r requirements.txt
