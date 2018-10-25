@@ -67,7 +67,6 @@ if __name__ == '__main__':
         line = "{0};{1};{2};{3};{4};{5};{6}\n".format('city_ch', 'date', 'district', 'area', 'xiaoqu', 'price', 'sale')
         csv_file.write(line)
 
-
     # 让用户选择爬取哪个城市的二手房小区价格数据
     prompt = create_prompt_text()
     import sys
@@ -124,7 +123,7 @@ if __name__ == '__main__':
                         sale = fields[-1]
                 except Exception as e:
                     print(text)
-                    print(e.message)
+                    print(e)
                     continue
                 sale = sale.replace(r'套在售二手房', '')
                 price = price.replace(r'暂无', '0')

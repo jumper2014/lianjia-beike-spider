@@ -9,9 +9,6 @@
 
 from lib.spider.xiaoqu_spider import *
 
-# -------------------------------
-# main函数从这里开始
-# -------------------------------
 if __name__ == "__main__":
     spider = XiaoQuSpider(SPIDER_NAME)
     spider.start()

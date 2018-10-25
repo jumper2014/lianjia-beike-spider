@@ -6,10 +6,6 @@
 
 from lib.spider.ershou_spider import *
 
-
-# -------------------------------
-# main函数从这里开始
-# -------------------------------
 if __name__ == "__main__":
     spider = ErShouSpider(SPIDER_NAME)
     spider.start()

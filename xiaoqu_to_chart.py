@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
-import webbrowser
+# 1. 杀死之前启动的http服务器
+# 2. 启动一个新的http服务器
+# 3. 用浏览器打开生成的数据html文件
 
 import pandas as pd
-import numpy as np
 from pyecharts import Bar
 import webbrowser as web
 import os
