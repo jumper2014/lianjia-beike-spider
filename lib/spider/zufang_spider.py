@@ -128,8 +128,9 @@ class ZuFangSpider(Spider):
         :param fmt: 保存文件格式
         :return: None
         """
-
-        csv_file = self.today_path + "/{0}.csv".format(area_name)
+        district_name = area_dict.get(area_name, "")
+        csv_file = self.today_path + "/{0}_{1}.csv".format(district_name, area_name)
+        # csv_file = self.today_path + "/{0}.csv".format(area_name)
         with open(csv_file, "w") as f:
             # 开始获得需要的板块数据
             zufangs = self.get_area_zufang_info(city_name, area_name)
