@@ -2,10 +2,8 @@
 # coding=utf-8
 # author: zengyuetian
 
+import threading
 from lib.zone.city import lianjia_cities, beike_cities
-import sys
-from lib.utility.version import PYTHON_3
-from lib.utility.log import *
 from lib.utility.date import *
 
 thread_pool_size = 50
@@ -30,6 +28,7 @@ class BaseSpider(object):
 
         self.total_num = 0  # 总的小区个数，用于统计
         print("Target site is {0}.com".format(SPIDER_NAME))
+        self.mutex = threading.Lock()  # 创建锁
 
     def create_prompt_text(self):
         """

@@ -4,7 +4,6 @@
 
 import re
 import threadpool
-import threading
 from bs4 import BeautifulSoup
 from lib.item.zufang import *
 from lib.spider.base_spider import *
@@ -15,7 +14,8 @@ from lib.zone.city import get_city
 
 
 class ZuFangBaseSpider(BaseSpider):
-    def get_area_zufang_info(self, city_name, area_name):
+    @staticmethod
+    def get_area_zufang_info(city_name, area_name):
         matches = None
         """
         通过爬取页面获取城市指定版块的租房信息
@@ -23,6 +23,7 @@ class ZuFangBaseSpider(BaseSpider):
         :param area_name: 版块
         :return: 出租房信息列表
         """
+        total_page = 1
         district_name = area_dict.get(area_name, "")
         chinese_district = get_chinese_district(district_name)
         chinese_area = chinese_area_dict.get(area_name, "")
@@ -44,16 +45,15 @@ class ZuFangBaseSpider(BaseSpider):
                 page_box = soup.find_all('div', class_='content__pg')[0]
                 # print(page_box)
                 matches = re.search('.*data-totalpage="(\d+)".*', str(page_box))
-            self.total_page = int(matches.group(1))
+            total_page = int(matches.group(1))
             # print(total_page)
         except Exception as e:
             print("\tWarning: only find one page for {0}".format(area_name))
             print(e)
-            self.total_page = 1
 
         # 从第一页开始,一直遍历到最后一页
         headers = create_headers()
-        for num in range(1, self.total_page + 1):
+        for num in range(1, total_page + 1):
             page = 'http://{0}.{1}.com/zufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
             print(page)
             response = requests.get(page, timeout=10, headers=headers)
@@ -147,7 +147,6 @@ class ZuFangBaseSpider(BaseSpider):
         city = get_city()
         self.today_path = create_date_path("{0}/zufang".format(SPIDER_NAME), city, self.date_string)
         # collect_area_zufang('sh', 'beicai')  # For debugging, keep it here
-        self.mutex = threading.Lock()  # 创建锁
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县

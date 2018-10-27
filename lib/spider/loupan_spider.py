@@ -12,6 +12,7 @@ from lib.request.headers import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.city import get_city
+from lib.utility.log import *
 
 
 class LouPanBaseSpider(BaseSpider):
@@ -39,6 +40,7 @@ class LouPanBaseSpider(BaseSpider):
         :param city_name: 城市
         :return: 新房楼盘信息列表
         """
+        total_page = 1
         loupan_list = list()
         page = 'http://{0}.fang.{1}.com/loupan/'.format(city_name, SPIDER_NAME)
         print(page)
@@ -55,7 +57,6 @@ class LouPanBaseSpider(BaseSpider):
         except Exception as e:
             print("\tWarning: only find one page for {0}".format(city_name))
             print(e)
-            total_page = 1
 
         print(total_page)
         # 从第一页开始,一直遍历到最后一页

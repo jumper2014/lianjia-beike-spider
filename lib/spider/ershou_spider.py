@@ -4,7 +4,6 @@
 
 import re
 import threadpool
-import threading
 from bs4 import BeautifulSoup
 from lib.item.ershou import *
 from lib.zone.city import get_city
@@ -12,6 +11,7 @@ from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
+from lib.utility.log import *
 
 
 class ErShouSpider(BaseSpider):
@@ -41,13 +41,15 @@ class ErShouSpider(BaseSpider):
                     f.write(self.date_string + "," + ershou.text() + "\n")
         print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
-    def get_area_ershou_info(self, city_name, area_name):
+    @staticmethod
+    def get_area_ershou_info(city_name, area_name):
         """
         通过爬取页面获得城市指定版块的二手房信息
         :param city_name: 城市
         :param area_name: 版块
         :return: 二手房数据列表
         """
+        total_page = 1
         district_name = area_dict.get(area_name, "")
         # 中文区县
         chinese_district = get_chinese_district(district_name)
@@ -66,14 +68,13 @@ class ErShouSpider(BaseSpider):
         try:
             page_box = soup.find_all('div', class_='page-box')[0]
             matches = re.search('.*"totalPage":(\d+),.*', str(page_box))
-            self.total_page = int(matches.group(1))
+            total_page = int(matches.group(1))
         except Exception as e:
             print("\tWarning: only find one page for {0}".format(area_name))
             print(e)
-            self.total_page = 1
 
         # 从第一页开始,一直遍历到最后一页
-        for num in range(1, self.total_page + 1):
+        for num in range(1, total_page + 1):
             page = 'http://{0}.{1}.com/ershoufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
             print(page)  # 打印每一页的地址
             headers = create_headers()
@@ -101,7 +102,7 @@ class ErShouSpider(BaseSpider):
     def start(self):
         city = get_city()
         self.today_path = create_date_path("{0}/ershou".format(SPIDER_NAME), city, self.date_string)
-        self.mutex = threading.Lock()  # 创建锁
+
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县

@@ -12,7 +12,7 @@ from lib.utility.path import DATA_PATH
 from lib.zone.city import *
 from lib.utility.date import *
 from lib.utility.version import PYTHON_3
-from lib.spider.spider import SPIDER_NAME
+from lib.spider.base_spider import SPIDER_NAME
 
 pymysql.install_as_MySQLdb()
 

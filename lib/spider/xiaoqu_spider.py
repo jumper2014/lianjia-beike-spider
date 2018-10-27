@@ -4,7 +4,6 @@
 
 import re
 import threadpool
-import threading
 from bs4 import BeautifulSoup
 from lib.item.xiaoqu import *
 from lib.zone.city import get_city
@@ -12,11 +11,13 @@ from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
+from lib.utility.log import *
 
 
 class XiaoQuBaseSpider(BaseSpider):
     @staticmethod
     def get_xiaoqu_info(city, area):
+        total_page = 1
         district = area_dict.get(area, "")
         chinese_district = get_chinese_district(district)
         chinese_area = chinese_area_dict.get(area, "")
@@ -38,12 +39,12 @@ class XiaoQuBaseSpider(BaseSpider):
         except Exception as e:
             print("\tWarning: only find one page for {0}".format(area))
             print(e)
-            total_page = 1
 
         # 从第一页开始,一直遍历到最后一页
         for i in range(1, total_page + 1):
             headers = create_headers()
             page = 'http://{0}.{1}.com/xiaoqu/{2}/pg{3}'.format(city, SPIDER_NAME, area, i)
+            print(page)  # 打印版块页面地址
             response = requests.get(page, timeout=10, headers=headers)
             html = response.content
             soup = BeautifulSoup(html, "lxml")
@@ -94,7 +95,6 @@ class XiaoQuBaseSpider(BaseSpider):
     def start(self):
         city = get_city()
         self.today_path = create_date_path("{0}/xiaoqu".format(SPIDER_NAME), city, self.date_string)
-        self.mutex = threading.Lock()  # 创建锁
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县
