@@ -3,17 +3,15 @@
 # author: zengyuetian
 
 import re
+import threadpool
+import threading
 from bs4 import BeautifulSoup
 from lib.item.ershou import *
-from lib.zone.district import *
-from lib.request.headers import *
-from lib.utility.log import logger
+from lib.zone.city import get_city
 from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
-import threadpool
-import threading
 
 
 class ErShouSpider(BaseSpider):
@@ -101,7 +99,7 @@ class ErShouSpider(BaseSpider):
         return ershou_list
 
     def start(self):
-        city = self.get_city()
+        city = get_city()
         self.today_path = create_date_path("{0}/ershou".format(SPIDER_NAME), city, self.date_string)
         self.mutex = threading.Lock()  # 创建锁
         t1 = time.time()  # 开始计时

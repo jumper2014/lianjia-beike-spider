@@ -3,14 +3,15 @@
 # author: zengyuetian
 
 import re
+import threadpool
+import threading
 from bs4 import BeautifulSoup
 from lib.item.zufang import *
 from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
-import threadpool
-import threading
+from lib.zone.city import get_city
 
 
 class ZuFangBaseSpider(BaseSpider):
@@ -143,7 +144,7 @@ class ZuFangBaseSpider(BaseSpider):
         print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
     def start(self):
-        city = self.get_city()
+        city = get_city()
         self.today_path = create_date_path("{0}/zufang".format(SPIDER_NAME), city, self.date_string)
         # collect_area_zufang('sh', 'beicai')  # For debugging, keep it here
         self.mutex = threading.Lock()  # 创建锁

@@ -11,6 +11,7 @@ from lib.spider.base_spider import *
 from lib.request.headers import *
 from lib.utility.date import *
 from lib.utility.path import *
+from lib.zone.city import get_city
 
 
 class LouPanBaseSpider(BaseSpider):
@@ -96,7 +97,7 @@ class LouPanBaseSpider(BaseSpider):
         return loupan_list
 
     def start(self):
-        city = self.get_city()
+        city = get_city()
         print('Today date is: %s' % self.date_string)
         self.today_path = create_date_path("{0}/loupan".format(SPIDER_NAME), city, self.date_string)
 
