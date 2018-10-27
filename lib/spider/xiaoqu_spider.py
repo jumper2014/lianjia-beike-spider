@@ -8,7 +8,7 @@ from lib.item.xiaoqu import *
 from lib.zone.district import *
 from lib.request.headers import *
 from lib.utility.log import logger
-from lib.spider.spider import *
+from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
@@ -16,9 +16,9 @@ import threadpool
 import threading
 
 
-class XiaoQuSpider(Spider):
-
-    def get_xiaoqu_info(self, city, area):
+class XiaoQuBaseSpider(BaseSpider):
+    @staticmethod
+    def get_xiaoqu_info(city, area):
         district = area_dict.get(area, "")
         chinese_district = get_chinese_district(district)
         chinese_area = chinese_area_dict.get(area, "")
@@ -95,13 +95,8 @@ class XiaoQuSpider(Spider):
 
     def start(self):
         city = self.get_city()
-        # 准备日期信息，爬到的数据存放到日期相关文件夹下
-        self.date_string = get_date_string()
-        print('Today date is: %s' % self.date_string)
         self.today_path = create_date_path("{0}/xiaoqu".format(SPIDER_NAME), city, self.date_string)
-
         self.mutex = threading.Lock()  # 创建锁
-        self.total_num = 0  # 总的小区个数，用于统计
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县
@@ -146,5 +141,5 @@ if __name__ == "__main__":
     # urls = get_xiaoqu_area_urls()
     # print urls
     # get_xiaoqu_info("sh", "beicai")
-    spider = XiaoQuSpider("lianjia")
+    spider = XiaoQuBaseSpider("lianjia")
     spider.start()

@@ -7,13 +7,13 @@ import math
 import requests
 from bs4 import BeautifulSoup
 from lib.item.loupan import *
-from lib.spider.spider import *
+from lib.spider.base_spider import *
 from lib.request.headers import *
 from lib.utility.date import *
 from lib.utility.path import *
 
 
-class LouPanSpider(Spider):
+class LouPanBaseSpider(BaseSpider):
     def collect_city_loupan(self, city_name, fmt="csv"):
         """
         将指定城市的新房楼盘数据存储下来，默认存为csv文件
@@ -31,7 +31,8 @@ class LouPanSpider(Spider):
                     f.write(self.date_string + "," + loupan.text() + "\n")
         print("Finish crawl: " + city_name + ", save data to : " + csv_file)
 
-    def get_loupan_info(self, city_name):
+    @staticmethod
+    def get_loupan_info(city_name):
         """
         爬取页面获取城市新房楼盘信息
         :param city_name: 城市
@@ -52,7 +53,7 @@ class LouPanSpider(Spider):
             total_page = int(math.ceil(int(matches.group(1)) / 10))
         except Exception as e:
             print("\tWarning: only find one page for {0}".format(city_name))
-            print("\t" + e.message)
+            print(e)
             total_page = 1
 
         print(total_page)
@@ -96,9 +97,6 @@ class LouPanSpider(Spider):
 
     def start(self):
         city = self.get_city()
-        self.total_num = 0
-        # 准备日期信息，爬到的数据存放到日期相关文件夹下
-        self.date_string = get_date_string()
         print('Today date is: %s' % self.date_string)
         self.today_path = create_date_path("{0}/loupan".format(SPIDER_NAME), city, self.date_string)
 

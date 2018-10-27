@@ -7,6 +7,6 @@
 from lib.spider.zufang_spider import *
 
 if __name__ == "__main__":
-    spider = ZuFangSpider(SPIDER_NAME)
+    spider = ZuFangBaseSpider(SPIDER_NAME)
     spider.start()
 

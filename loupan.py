@@ -7,6 +7,6 @@
 from lib.spider.loupan_spider import *
 
 if __name__ == "__main__":
-    spider = LouPanSpider(SPIDER_NAME)
+    spider = LouPanBaseSpider(SPIDER_NAME)
     spider.start()
 

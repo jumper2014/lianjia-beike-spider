@@ -6,6 +6,7 @@ from lib.zone.city import lianjia_cities, beike_cities
 import sys
 from lib.utility.version import PYTHON_3
 from lib.utility.log import *
+from lib.utility.date import *
 
 thread_pool_size = 50
 LIANJIA_SPIDER = "lianjia"
@@ -14,7 +15,7 @@ SPIDER_NAME = LIANJIA_SPIDER
 # SPIDER_NAME = BEIKE_SPIDER
 
 
-class Spider(object):
+class BaseSpider(object):
     def __init__(self, name):
         self.name = name
         if self.name == LIANJIA_SPIDER:
@@ -23,6 +24,11 @@ class Spider(object):
             self.cities = beike_cities
         else:
             self.cities = None
+        # 准备日期信息，爬到的数据存放到日期相关文件夹下
+        self.date_string = get_date_string()
+        print('Today date is: %s' % self.date_string)
+
+        self.total_num = 0  # 总的小区个数，用于统计
         print("Target site is {0}.com".format(SPIDER_NAME))
 
     def create_prompt_text(self):
@@ -52,7 +58,7 @@ class Spider(object):
         return self.cities.get(en, None)
 
     def get_city(self):
-
+        city = None
         # 允许用户通过命令直接指定
         if len(sys.argv) < 2:
             print("Wait for your choice.")
@@ -79,5 +85,3 @@ class Spider(object):
             print("No such city, please check your input.")
             exit(1)
         return city
-
-

@@ -8,14 +8,15 @@ from lib.item.ershou import *
 from lib.zone.district import *
 from lib.request.headers import *
 from lib.utility.log import logger
-from lib.spider.spider import *
+from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
 import threadpool
 import threading
 
-class ErShouSpider(Spider):
+
+class ErShouSpider(BaseSpider):
     def collect_area_ershou_data(self, city_name, area_name, fmt="csv"):
         """
         对于每个板块,获得这个板块下所有二手房的信息
@@ -101,14 +102,8 @@ class ErShouSpider(Spider):
 
     def start(self):
         city = self.get_city()
-
-        # 准备日期信息，爬到的数据存放到日期相关文件夹下
-        self.date_string = get_date_string()
-        print('Today date is: %s' % self.date_string)
         self.today_path = create_date_path("{0}/ershou".format(SPIDER_NAME), city, self.date_string)
-
         self.mutex = threading.Lock()  # 创建锁
-        self.total_num = 0  # 总的小区个数，用于统计
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县
@@ -147,6 +142,7 @@ class ErShouSpider(Spider):
         t2 = time.time()
         print("Total crawl {0} areas.".format(len(areas)))
         print("Total cost {0} second to crawl {1} data items.".format(t2 - t1, self.total_num))
+
 
 if __name__ == '__main__':
     pass

@@ -45,6 +45,8 @@ if __name__ == '__main__':
     collection = None
     workbook = None
 
+    datas = list()
+
     if database == "mysql":
         import records
 
@@ -61,7 +63,7 @@ if __name__ == '__main__':
         worksheet = workbook.add_worksheet()
     elif database == "json":
         import json
-        datas = list()
+
     elif database == "csv":
         csv_file = open("xiaoqu.csv", "w")
         line = "{0};{1};{2};{3};{4};{5};{6}\n".format('city_ch', 'date', 'district', 'area', 'xiaoqu', 'price', 'sale')

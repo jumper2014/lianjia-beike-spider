@@ -5,18 +5,17 @@
 import re
 from bs4 import BeautifulSoup
 from lib.item.zufang import *
-from lib.zone.district import *
-from lib.request.headers import *
-from lib.utility.log import logger
-from lib.spider.spider import *
+from lib.spider.base_spider import *
 from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
 import threadpool
 import threading
 
-class ZuFangSpider(Spider):
+
+class ZuFangBaseSpider(BaseSpider):
     def get_area_zufang_info(self, city_name, area_name):
+        matches = None
         """
         通过爬取页面获取城市指定版块的租房信息
         :param city_name: 城市
@@ -92,7 +91,7 @@ class ZuFangSpider(Spider):
                         size = size.text.strip()
                     else:
                         # 继续清理数据
-                        price = price.text.strip().replace(" ", "").replace("元/月","")
+                        price = price.text.strip().replace(" ", "").replace("元/月", "")
                         # print(price)
                         desc1 = desc1.text.strip().replace("\n", "")
                         desc2 = desc2.text.strip().replace("\n", "").replace(" ", "")
@@ -105,7 +104,6 @@ class ZuFangSpider(Spider):
                         # print(descs[1])
                         size = descs[1].replace("㎡", "平米")
 
-
                     # print("{0} {1} {2} {3} {4} {5} {6}".format(
                     #     chinese_district, chinese_area, xiaoqu, layout, size, price))
 
@@ -113,7 +111,7 @@ class ZuFangSpider(Spider):
                     zufang = ZuFang(chinese_district, chinese_area, xiaoqu, layout, size, price)
                     zufang_list.append(zufang)
                 except Exception as e:
-                    print("="*20 + " page no data")
+                    print("=" * 20 + " page no data")
                     print(e)
                     print(page)
                     print("=" * 20)
@@ -144,19 +142,11 @@ class ZuFangSpider(Spider):
                     f.write(self.date_string + "," + zufang.text() + "\n")
         print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
 
-
     def start(self):
         city = self.get_city()
-
-        # 准备日期信息，爬到的数据存放到日期相关文件夹下
-        self.date_string = get_date_string()
-        print('Today date is: %s' % self.date_string)
         self.today_path = create_date_path("{0}/zufang".format(SPIDER_NAME), city, self.date_string)
-
         # collect_area_zufang('sh', 'beicai')  # For debugging, keep it here
-
         self.mutex = threading.Lock()  # 创建锁
-        self.total_num = 0  # 总的小区个数，用于统计
         t1 = time.time()  # 开始计时
 
         # 获得城市有多少区列表, district: 区县
