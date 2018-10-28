@@ -69,14 +69,7 @@ if __name__ == '__main__':
         line = "{0};{1};{2};{3};{4};{5};{6}\n".format('city_ch', 'date', 'district', 'area', 'xiaoqu', 'price', 'sale')
         csv_file.write(line)
 
-    # 让用户选择爬取哪个城市的二手房小区价格数据
-    prompt = create_prompt_text()
-    import sys
-
-    if sys.version_info < (3, 0):  # 如果小于Python3
-        city = raw_input(prompt)
-    else:
-        city = input(prompt)
+    city = get_city()
 
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date = get_date_string()
