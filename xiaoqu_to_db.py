@@ -3,11 +3,10 @@
 # author: zengyuetian
 # 此代码仅供学习与交流，请勿用于商业用途。
 # read data from csv, write to database
-# database includes: mysql, mongodb, excel, json
+# database includes: mysql/mongodb/excel/json/csv
 
 import os
 import pymysql
-
 from lib.utility.path import DATA_PATH
 from lib.zone.city import *
 from lib.utility.date import *
@@ -34,26 +33,24 @@ def create_prompt_text():
 
 if __name__ == '__main__':
     # 设置目标数据库
-    # mysql or mongodb or excel
+    ##################################
+    # mysql/mongodb/excel/json/csv
     # database = "mysql"
     # database = "mongodb"
     # database = "excel"
     # database = "json"
     database = "csv"
-
+    ##################################
     db = None
     collection = None
     workbook = None
-
     datas = list()
 
     if database == "mysql":
         import records
-
         db = records.Database('mysql://root:123456@localhost/lianjia?charset=utf8', encoding='utf-8')
     elif database == "mongodb":
         from pymongo import MongoClient
-
         conn = MongoClient('localhost', 27017)
         db = conn.lianjia  # 连接lianjia数据库，没有则自动创建
         collection = db.xiaoqu  # 使用xiaoqu集合，没有则自动创建
@@ -63,14 +60,12 @@ if __name__ == '__main__':
         worksheet = workbook.add_worksheet()
     elif database == "json":
         import json
-
     elif database == "csv":
         csv_file = open("xiaoqu.csv", "w")
         line = "{0};{1};{2};{3};{4};{5};{6}\n".format('city_ch', 'date', 'district', 'area', 'xiaoqu', 'price', 'sale')
         csv_file.write(line)
 
     city = get_city()
-
     # 准备日期信息，爬到的数据存放到日期相关文件夹下
     date = get_date_string()
     # 获得 csv 文件路径
@@ -100,7 +95,6 @@ if __name__ == '__main__':
         with open(csv, 'r') as f:
             for line in f:
                 count += 1
-
                 text = line.strip()
                 try:
                     # 如果小区名里面没有逗号，那么总共是6项
@@ -162,10 +156,13 @@ if __name__ == '__main__':
                 elif database == "csv":
                     line = "{0};{1};{2};{3};{4};{5};{6}\n".format(city_ch, date, district, area, xiaoqu, price, sale)
                     csv_file.write(line)
+
+    # 写入，并且关闭句柄
     if database == "excel":
         workbook.close()
     elif database == "json":
-        json.dump(datas, open('xiaoqu.json', 'w'), ensure_ascii=False,indent=2)
+        json.dump(datas, open('xiaoqu.json', 'w'), ensure_ascii=False, indent=2)
     elif database == "csv":
         csv_file.close()
+
     print("Total write {0} items to database.".format(count))

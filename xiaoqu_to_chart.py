@@ -22,7 +22,7 @@ if __name__ == '__main__':
             os.system("ps aux | grep python | grep SimpleHTTPServer | grep -v grep | awk '{print $2}' | xargs kill")
             os.system("python -m SimpleHTTPServer 8080 & > /dev/null 2>&1 ")
     except Exception as e:
-        pass
+        print(e)
 
     # 注意，已经将分割符号转换成分号，因为有的小区名中有逗号
     df = pd.read_csv("xiaoqu.csv", encoding="utf-8", sep=";")
