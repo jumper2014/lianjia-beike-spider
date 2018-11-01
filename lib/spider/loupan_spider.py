@@ -16,7 +16,7 @@ from lib.utility.log import *
 
 
 class LouPanBaseSpider(BaseSpider):
-    def collect_city_loupan(self, city_name, fmt="csv"):
+    def collect_city_loupan_data(self, city_name, fmt="csv"):
         """
         将指定城市的新房楼盘数据存储下来，默认存为csv文件
         :param city_name: 城市
@@ -103,7 +103,7 @@ class LouPanBaseSpider(BaseSpider):
         self.today_path = create_date_path("{0}/loupan".format(SPIDER_NAME), city, self.date_string)
 
         t1 = time.time()  # 开始计时
-        self.collect_city_loupan(city)
+        self.collect_city_loupan_data(city)
         t2 = time.time()  # 计时结束，统计结果
 
         print("Total crawl {0} loupan.".format(self.total_num))

@@ -14,6 +14,30 @@ from lib.zone.city import get_city
 
 
 class ZuFangBaseSpider(BaseSpider):
+    def collect_area_zufang_data(self, city_name, area_name, fmt="csv"):
+        """
+        对于每个板块,获得这个板块下所有出租房的信息
+        并且将这些信息写入文件保存
+        :param city_name: 城市
+        :param area_name: 板块
+        :param fmt: 保存文件格式
+        :return: None
+        """
+        district_name = area_dict.get(area_name, "")
+        csv_file = self.today_path + "/{0}_{1}.csv".format(district_name, area_name)
+        with open(csv_file, "w") as f:
+            # 开始获得需要的板块数据
+            zufangs = self.get_area_zufang_info(city_name, area_name)
+            # 锁定
+            if self.mutex.acquire(1):
+                self.total_num += len(zufangs)
+                # 释放
+                self.mutex.release()
+            if fmt == "csv":
+                for zufang in zufangs:
+                    f.write(self.date_string + "," + zufang.text() + "\n")
+        print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
     @staticmethod
     def get_area_zufang_info(city_name, area_name):
         matches = None
@@ -118,30 +142,7 @@ class ZuFangBaseSpider(BaseSpider):
                     print("=" * 20)
         return zufang_list
 
-    def collect_area_zufang_data(self, city_name, area_name, fmt="csv"):
-        """
-        对于每个板块,获得这个板块下所有出租房的信息
-        并且将这些信息写入文件保存
-        :param city_name: 城市
-        :param area_name: 板块
-        :param fmt: 保存文件格式
-        :return: None
-        """
-        district_name = area_dict.get(area_name, "")
-        csv_file = self.today_path + "/{0}_{1}.csv".format(district_name, area_name)
-        # csv_file = self.today_path + "/{0}.csv".format(area_name)
-        with open(csv_file, "w") as f:
-            # 开始获得需要的板块数据
-            zufangs = self.get_area_zufang_info(city_name, area_name)
-            # 锁定
-            if self.mutex.acquire(1):
-                self.total_num += len(zufangs)
-                # 释放
-                self.mutex.release()
-            if fmt == "csv":
-                for zufang in zufangs:
-                    f.write(self.date_string + "," + zufang.text() + "\n")
-        print("Finish crawl area: " + area_name + ", save data to : " + csv_file)
+
 
     def start(self):
         city = get_city()
