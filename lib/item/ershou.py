@@ -11,16 +11,18 @@ if not PYTHON_3:   # 如果小于Python3
 
 
 class ErShou(object):
-    def __init__(self, district, area, name, price, desc):
+    def __init__(self, district, area, name, price, desc, pic):
         self.district = district
         self.area = area
         self.price = price
         self.name = name
         self.desc = desc
+        self.pic = pic
 
     def text(self):
         return self.district + "," + \
                 self.area + "," + \
                 self.name + "," + \
                 self.price + "," + \
-                self.desc
+                self.desc + "," + \
+                self.pic

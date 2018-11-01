@@ -8,5 +8,8 @@ ERSHOUFANG_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
 XIAOQU_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
 XIAOQU_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
 
-DISTRICT_AREA_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div[2]/a'
-CITY_DISTRICT_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div/a'
+# 适配链家和贝壳网
+# DISTRICT_AREA_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div[2]/a'
+DISTRICT_AREA_XPATH = '//div[3]/div[1]/dl[2]/dd/div/div[2]/a'
+# CITY_DISTRICT_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div/a'
+CITY_DISTRICT_XPATH = '///div[3]/div[1]/dl[2]/dd/div/div/a'
