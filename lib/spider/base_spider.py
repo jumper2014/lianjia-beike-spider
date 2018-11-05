@@ -9,8 +9,8 @@ from lib.utility.date import *
 thread_pool_size = 50
 LIANJIA_SPIDER = "lianjia"
 BEIKE_SPIDER = "ke"
-SPIDER_NAME = LIANJIA_SPIDER
-# SPIDER_NAME = BEIKE_SPIDER
+# SPIDER_NAME = LIANJIA_SPIDER
+SPIDER_NAME = BEIKE_SPIDER
 
 
 class BaseSpider(object):
