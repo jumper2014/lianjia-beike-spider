@@ -3,13 +3,19 @@
 # author: zengyuetian
 # 页面元素的XPATH
 
-ERSHOUFANG_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
-ERSHOUFANG_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
-XIAOQU_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
-XIAOQU_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+from lib.spider.base_spider import SPIDER_NAME, LIANJIA_SPIDER, BEIKE_SPIDER
 
-# 适配链家和贝壳网
-# DISTRICT_AREA_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div[2]/a'
-DISTRICT_AREA_XPATH = '//div[3]/div[1]/dl[2]/dd/div/div[2]/a'
-# CITY_DISTRICT_XPATH = '/html/body/div[3]/div[1]/dl[2]/dd/div/div/a'
-CITY_DISTRICT_XPATH = '///div[3]/div[1]/dl[2]/dd/div/div/a'
+if SPIDER_NAME == LIANJIA_SPIDER:
+    ERSHOUFANG_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
+    ERSHOUFANG_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+    XIAOQU_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
+    XIAOQU_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+    DISTRICT_AREA_XPATH = '//div[3]/div[1]/dl[2]/dd/div/div[2]/a'
+    CITY_DISTRICT_XPATH = '///div[3]/div[1]/dl[2]/dd/div/div/a'
+elif SPIDER_NAME == BEIKE_SPIDER:
+    ERSHOUFANG_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
+    ERSHOUFANG_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+    XIAOQU_QU_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div/a'
+    XIAOQU_BANKUAI_XPATH = '//*[@id="filter-options"]/dl[1]/dd/div[2]/a'
+    DISTRICT_AREA_XPATH = '//div[3]/div[1]/dl[2]/dd/div/div[2]/a'
+    CITY_DISTRICT_XPATH = '///div[3]/div[1]/dl[2]/dd/div/div/a'
