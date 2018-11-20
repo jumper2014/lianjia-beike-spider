@@ -11,7 +11,7 @@ from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
 from lib.zone.city import get_city
-
+import lib.utility.version
 
 class ZuFangBaseSpider(BaseSpider):
     def collect_area_zufang_data(self, city_name, area_name, fmt="csv"):

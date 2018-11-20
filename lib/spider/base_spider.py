@@ -5,6 +5,7 @@
 import threading
 from lib.zone.city import lianjia_cities, beike_cities
 from lib.utility.date import *
+import lib.utility.version
 
 thread_pool_size = 50
 LIANJIA_SPIDER = "lianjia"

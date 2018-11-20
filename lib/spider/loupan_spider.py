@@ -13,6 +13,7 @@ from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.city import get_city
 from lib.utility.log import *
+import lib.utility.version
 
 
 class LouPanBaseSpider(BaseSpider):
@@ -24,7 +25,7 @@ class LouPanBaseSpider(BaseSpider):
         :return: None
         """
         csv_file = self.today_path + "/{0}.csv".format(city_name)
-        with open(csv_file, "w", encoding='utf-8') as f:
+        with open(csv_file, "w") as f:
             # 开始获得需要的板块数据
             loupans = self.get_loupan_info(city_name)
             self.total_num = len(loupans)

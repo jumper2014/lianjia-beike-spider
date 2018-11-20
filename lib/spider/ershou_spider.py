@@ -12,6 +12,7 @@ from lib.utility.date import *
 from lib.utility.path import *
 from lib.zone.area import *
 from lib.utility.log import *
+import lib.utility.version
 
 
 class ErShouSpider(BaseSpider):
