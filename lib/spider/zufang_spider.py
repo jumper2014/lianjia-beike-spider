@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
+# 爬取租房数据的爬虫派生类
 
 import re
 import threadpool
@@ -12,6 +13,7 @@ from lib.utility.path import *
 from lib.zone.area import *
 from lib.zone.city import get_city
 import lib.utility.version
+
 
 class ZuFangBaseSpider(BaseSpider):
     def collect_area_zufang_data(self, city_name, area_name, fmt="csv"):
@@ -141,8 +143,6 @@ class ZuFangBaseSpider(BaseSpider):
                     print(page)
                     print("=" * 20)
         return zufang_list
-
-
 
     def start(self):
         city = get_city()

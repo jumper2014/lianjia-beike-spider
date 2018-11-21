@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
+# 爬虫基类
+# 爬虫名常量，用来设置爬取哪个站点
 
 import threading
 from lib.zone.city import lianjia_cities, beike_cities

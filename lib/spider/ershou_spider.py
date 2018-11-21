@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
+# 爬取二手房数据的爬虫派生类
 
 import re
 import threadpool

@@ -44,6 +44,7 @@ if __name__ == '__main__':
     db = None
     collection = None
     workbook = None
+    csv_file = None
     datas = list()
 
     if database == "mysql":

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
+# 爬取小区数据的爬虫派生类
 
 import re
 import threadpool
@@ -91,8 +92,6 @@ class XiaoQuBaseSpider(BaseSpider):
                 xiaoqu = XiaoQu(chinese_district, chinese_area, name, price, on_sale)
                 xiaoqu_list.append(xiaoqu)
         return xiaoqu_list
-
-
 
     def start(self):
         city = get_city()
