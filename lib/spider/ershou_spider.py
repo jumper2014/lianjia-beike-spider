@@ -79,6 +79,7 @@ class ErShouSpider(BaseSpider):
             page = 'http://{0}.{1}.com/ershoufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
             print(page)  # 打印每一页的地址
             headers = create_headers()
+            BaseSpider.random_delay()
             response = requests.get(page, timeout=10, headers=headers)
             html = response.content
             soup = BeautifulSoup(html, "lxml")

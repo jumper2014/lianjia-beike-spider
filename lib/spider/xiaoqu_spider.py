@@ -72,6 +72,7 @@ class XiaoQuBaseSpider(BaseSpider):
             headers = create_headers()
             page = 'http://{0}.{1}.com/xiaoqu/{2}/pg{3}'.format(city, SPIDER_NAME, area, i)
             print(page)  # 打印版块页面地址
+            BaseSpider.random_delay()
             response = requests.get(page, timeout=10, headers=headers)
             html = response.content
             soup = BeautifulSoup(html, "lxml")

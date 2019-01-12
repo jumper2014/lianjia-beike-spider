@@ -82,6 +82,7 @@ class ZuFangBaseSpider(BaseSpider):
         for num in range(1, total_page + 1):
             page = 'http://{0}.{1}.com/zufang/{2}/pg{3}'.format(city_name, SPIDER_NAME, area_name, num)
             print(page)
+            BaseSpider.random_delay()
             response = requests.get(page, timeout=10, headers=headers)
             html = response.content
             soup = BeautifulSoup(html, "lxml")
