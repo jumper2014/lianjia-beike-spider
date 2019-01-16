@@ -1,5 +1,6 @@
 # 链家网(lianjia.com)和贝壳网(ke.com)爬虫
-- 爬取链家网、贝壳网的各类房价数据（小区数据，挂牌二手房, 出租房，新房）。如果好用，请star ！
+- 爬取链家网、贝壳网的各类房价数据（小区数据，挂牌二手房, 出租房，新房）。
+- **如果好用，请点星支持 ！**
 - 支持北京上海广州深圳等国内21个主要城市；支持Python2和Python3; 基于页面的数据爬取，稳定可靠; 丰富的代码注释，帮助理解代码并且方便扩展功能。
 - 数据含义：城市-city, 区县-district, 板块-area, 小区-xiaoqu, 二手房-ershou, 租房-zufang， 新房-loupan。
 - 每个版块存储为一个csv文件，该文件可以作为原始数据进行进一步的处理和分析。
@@ -7,7 +8,7 @@
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/xiaoqu_top.png)
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/district_top.png)
 - 如果链家和贝壳页面结构有调整，欢迎反馈，我将尽力保持更新。
-- 此代码仅供学习与交流，请勿用于商业用途。问题反馈QQ群号635276285。
+- 此代码仅供学习与交流，请勿用于商业用途，后果自负。问题反馈QQ群号635276285。
 
 ## 安装依赖
 - pip install -r requirements.txt
