@@ -8,7 +8,7 @@
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/xiaoqu_top.png)
 ![alt text](https://github.com/jumper2014/lianjia-spider/blob/master/pic/district_top.png)
 - 如果链家和贝壳页面结构有调整，欢迎反馈，我将尽力保持更新。
-- 此代码仅供学习与交流，请勿用于商业用途，后果自负。问题反馈QQ群号635276285。
+- 此代码仅供学习与交流，请勿用于商业用途，后果自负。
 
 ## 安装依赖
 - pip install -r requirements.txt
@@ -16,6 +16,10 @@
 - 运行前，请指定要爬取的网站，见lib/const/spider.py里面的SPIDER_NAME变量。
 - 清理数据，运行 python tool/clean.py
 
+## 快速问答
+- Q: 如何降低爬取速度，避免被封IP？A:见base_spider.py里面的RANDOM_DELAY
+- Q: 为何无法使用xiaoqu_to_chart.py? A: 该脚本现仅支持mac系统
+- Q: 有其他问题反馈途径么？ A: 问题反馈QQ群号635276285。
 
 ## 小区房价数据爬取
 - 内容格式：采集日期,所属区县,板块名,小区名,挂牌均价,挂牌数
