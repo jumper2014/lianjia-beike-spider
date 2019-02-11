@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
-# 协程下载图片，Python 3.6.1
+# 此代码仅供学习与交流，请勿用于商业用途。
+# 协程下载图片，仅支持Python 3.6.1
+
 
 
 import aiohttp

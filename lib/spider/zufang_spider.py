@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 # author: zengyuetian
+# 此代码仅供学习与交流，请勿用于商业用途。
 # 爬取租房数据的爬虫派生类
 
 import re
