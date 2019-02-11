@@ -18,6 +18,7 @@
 
 ## 快速问答
 - Q: 如何降低爬取速度，避免被封IP？A:见base_spider.py里面的RANDOM_DELAY
+- Q: 如何减少并发的爬虫数？ A: 见见base_spider.py的thread_pool_size
 - Q: 为何无法使用xiaoqu_to_chart.py? A: 该脚本现仅支持mac系统
 - Q: 有其他问题反馈途径么？ A: 问题反馈QQ群号635276285。
 
