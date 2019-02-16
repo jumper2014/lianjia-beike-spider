@@ -40,13 +40,13 @@ if __name__ == '__main__':
     # 最贵的小区排名
     ####################################################
     df.sort_values("price", ascending=False, inplace=True)
-    num = 3
+    num = 5
     print(df.head(num))
     city = df["city_ch"][0]
     xqs = df["xiaoqu"][0:num]
     prices = df["price"][0:num]
     bar = Bar("{0}小区均价".format(city))
-    bar.add("小区均价前{0}名".format(num), xqs, prices, is_stack=True, is_label_show=True)
+    bar.add("小区均价前{0}名".format(num), xqs, prices, is_stack=True, is_label_show=True, xaxis_interval=0, xaxis_rotate=45)
     bar.render(path="xiaoqu.html")
 
     ####################################################
@@ -56,10 +56,10 @@ if __name__ == '__main__':
     district_df = district_df.round(0)
     district_df.sort_values("price", ascending=False, inplace=True)
     print(district_df)
-    districts = district_df.index
+    districts = district_df.index.tolist()
     prices = district_df["price"]
     bar = Bar("{0}区县均价".format(city))
-    bar.add("区县均价排名", districts, prices, is_stack=True, is_label_show=True)
+    bar.add("区县均价排名", districts, prices, is_stack=True, is_label_show=True, xaxis_interval=0, xaxis_rotate=45)
     bar.render(path="district.html")
 
     web.open("http://localhost:8080/xiaoqu.html", new=0, autoraise=True)
