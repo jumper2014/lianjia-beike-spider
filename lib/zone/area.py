@@ -8,6 +8,9 @@ from lib.zone.district import *
 from lib.const.xpath import *
 from lib.request.headers import *
 from lib.spider.base_spider import SPIDER_NAME
+import sys
+from lib.utility.version import PYTHON_3
+from lib.utility.log import *
 
 
 def get_district_url(city, district):
@@ -19,6 +22,27 @@ def get_district_url(city, district):
     """
     return "http://{0}.{1}.com/xiaoqu/{2}".format(city, SPIDER_NAME, district)
 
+def create_prompt_text():
+    return '请选择你要爬取的区域,多个之间用逗号分隔(例如:dongcheng,xicheng),如果不限制，则输入all \n'
+
+def get_selectareas():
+     districts = None
+    # 允许用户通过命令直接指定
+     if len(sys.argv) < 2:
+        # 让用户选择爬取哪个城市的二手房小区价格数据
+        prompt = create_prompt_text()
+        # 判断Python版本
+        if not PYTHON_3:  # 如果小于Python3
+            districts = raw_input(prompt)
+        else:
+            districts = input(prompt)
+     elif len(sys.argv) == 2:
+        districts = str(sys.argv[1])
+        print("区域 is: {0}".format(districts))
+     else:
+        print("At most accept one parameter.")
+        exit(1)
+     return districts.split(',')
 
 def get_areas(city, district):
     """

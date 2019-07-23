@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{cb46d0b1-00c5-4c1e-a131-808dcb1afbfc}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>ershou.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="pic\district_top.png" />
+    <Content Include="pic\xiaoqu_top.png" />
+    <Content Include="requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ershou.py" />
+    <Compile Include="lib\const\xpath.py" />
+    <Compile Include="lib\const\__init__.py" />
+    <Compile Include="lib\item\ershou.py" />
+    <Compile Include="lib\item\loupan.py" />
+    <Compile Include="lib\item\xiaoqu.py" />
+    <Compile Include="lib\item\zufang.py" />
+    <Compile Include="lib\item\__init__.py" />
+    <Compile Include="lib\request\headers.py" />
+    <Compile Include="lib\request\proxy.py" />
+    <Compile Include="lib\request\__init__.py" />
+    <Compile Include="lib\spider\base_spider.py" />
+    <Compile Include="lib\spider\ershou_spider.py" />
+    <Compile Include="lib\spider\loupan_spider.py" />
+    <Compile Include="lib\spider\xiaoqu_spider.py" />
+    <Compile Include="lib\spider\zufang_spider.py" />
+    <Compile Include="lib\spider\__init__.py" />
+    <Compile Include="lib\utility\date.py" />
+    <Compile Include="lib\utility\log.py" />
+    <Compile Include="lib\utility\path.py" />
+    <Compile Include="lib\utility\version.py" />
+    <Compile Include="lib\utility\writer.py" />
+    <Compile Include="lib\utility\__init__.py" />
+    <Compile Include="lib\zone\area.py" />
+    <Compile Include="lib\zone\city.py" />
+    <Compile Include="lib\zone\district.py" />
+    <Compile Include="lib\zone\__init__.py" />
+    <Compile Include="lib\__init__.py" />
+    <Compile Include="log\__init__.py" />
+    <Compile Include="loupan.py" />
+    <Compile Include="test\date_test.py" />
+    <Compile Include="tool\clean.py" />
+    <Compile Include="tool\ershou_image_with_coroutine.py" />
+    <Compile Include="tool\ershou_image_with_threads.py" />
+    <Compile Include="tool\ershou_number.py" />
+    <Compile Include="xiaoqu.py" />
+    <Compile Include="xiaoqu_to_chart.py" />
+    <Compile Include="xiaoqu_to_db.py" />
+    <Compile Include="zufang.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib" />
+    <Folder Include="lib\const" />
+    <Folder Include="lib\item" />
+    <Folder Include="lib\request" />
+    <Folder Include="lib\spider" />
+    <Folder Include="lib\utility" />
+    <Folder Include="lib\zone" />
+    <Folder Include="log" />
+    <Folder Include="pic" />
+    <Folder Include="test" />
+    <Folder Include="tool" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>

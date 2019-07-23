@@ -10,10 +10,15 @@ from lib.zone.city import cities
 from lib.const.xpath import *
 from lib.request.headers import *
 from lib.spider.base_spider import SPIDER_NAME
+import sys
+from lib.utility.version import PYTHON_3
+from lib.utility.log import *
 
 chinese_city_district_dict = dict()     # 城市代码和中文名映射
 chinese_area_dict = dict()              # 版块代码和中文名映射
 area_dict = dict()
+
+
 
 
 def get_chinese_district(en):
@@ -24,6 +29,27 @@ def get_chinese_district(en):
     """
     return chinese_city_district_dict.get(en, None)
 
+def create_prompt_text():
+    return '请选择你要爬取的范围,多个之间用逗号分隔(例如:dongcheng,xicheng),如果不限制，则输入all \n'
+
+def get_selectdistricts():
+     districts = None
+    # 允许用户通过命令直接指定
+     if len(sys.argv) < 2:
+        # 让用户选择爬取哪个城市的二手房小区价格数据
+        prompt = create_prompt_text()
+        # 判断Python版本
+        if not PYTHON_3:  # 如果小于Python3
+            districts = raw_input(prompt)
+        else:
+            districts = input(prompt)
+     elif len(sys.argv) == 2:
+        districts = str(sys.argv[1])
+        print("区域 is: {0}".format(districts))
+     else:
+        print("At most accept one parameter.")
+        exit(1)
+     return districts.split(',')
 
 def get_districts(city):
     """
