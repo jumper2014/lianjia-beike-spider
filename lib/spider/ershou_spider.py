@@ -118,7 +118,7 @@ class ErShouSpider(BaseSpider):
         print('Districts: {0}'.format(districts))
 
         selecteddistricts= get_selectdistricts();
-        if selecteddistricts != "all":
+        if selecteddistricts != ["all"]:
             districts = selecteddistricts;
         # 获得每个区的板块, area: 板块
         areas = list()
@@ -127,7 +127,7 @@ class ErShouSpider(BaseSpider):
             print('{0}: Area list:  {1}'.format(district, areas_of_district))
             # 用list的extend方法,L1.extend(L2)，该方法将参数L2的全部元素添加到L1的尾部
             selectedareas=get_selectareas();
-            if  selectedareas != "all":
+            if  selectedareas != ["all"]:
                 areas_of_district = selectedareas;
             areas.extend(areas_of_district)
             # 使用一个字典来存储区县和板块的对应关系, 例如{'beicai': 'pudongxinqu', }

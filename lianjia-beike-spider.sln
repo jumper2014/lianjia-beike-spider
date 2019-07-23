@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.705
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "lianjia-beike-spider", "lianjia-beike-spider.pyproj", "{CB46D0B1-00C5-4C1E-A131-808DCB1AFBFC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB46D0B1-00C5-4C1E-A131-808DCB1AFBFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB46D0B1-00C5-4C1E-A131-808DCB1AFBFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17B22EC5-FE0E-4838-972F-942C6E7A3DCC}
+	EndGlobalSection
+EndGlobal
