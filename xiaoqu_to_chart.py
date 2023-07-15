@@ -7,7 +7,7 @@
 # 3. 用浏览器打开生成的数据html文件
 
 import pandas as pd
-from pyecharts import Bar
+from pyecharts.charts import Bar #pyecharts库已经进行了重构和更新，一些类和函数的命名也发生了变化。对于柱状图（Bar）的绘制，需要使用Bar类的新名称
 
 import os
 import time
